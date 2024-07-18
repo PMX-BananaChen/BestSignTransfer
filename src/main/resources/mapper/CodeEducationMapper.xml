@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.primax.bestsigntransfer.admin.mapper.CodeEducationMapper">
+
+    <resultMap type="CodeEducation" id="CodeEducationResult">
+        <result property="id"    column="Id"    />
+        <result property="eduno"    column="EduNo"    />
+        <result property="eduname"    column="EduName"    />
+        <result property="isenabled"    column="IsEnabled"    />
+    </resultMap>
+
+    <sql id="selectCodeEducationVo">
+        select Id, EduNo, EduName, IsEnabled from code_education
+    </sql>
+
+    <select id="selectCodeEducationList" parameterType="CodeEducation" resultMap="CodeEducationResult">
+        <include refid="selectCodeEducationVo"/>
+        <where>
+            <if test="eduno != null  and eduno != ''"> and EduNo = #{eduno}</if>
+            <if test="eduname != null  and eduname != ''"> and EduName like concat('%', #{eduname}, '%')</if>
+            <if test="isenabled != null  and isenabled != ''"> and IsEnabled = #{isenabled}</if>
+        </where>
+    </select>
+
+    <select id="selectCodeEducationById" parameterType="Long" resultMap="CodeEducationResult">
+        <include refid="selectCodeEducationVo"/>
+        where Id = #{id}
+    </select>
+
+    <insert id="insertCodeEducation" parameterType="CodeEducation">
+        insert into code_education
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">Id,</if>
+            <if test="eduno != null">EduNo,</if>
+            <if test="eduname != null">EduName,</if>
+            <if test="isenabled != null">IsEnabled,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="eduno != null">#{eduno},</if>
+            <if test="eduname != null">#{eduname},</if>
+            <if test="isenabled != null">#{isenabled},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCodeEducation" parameterType="CodeEducation">
+        update code_education
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="eduno != null">EduNo = #{eduno},</if>
+            <if test="eduname != null">EduName = #{eduname},</if>
+            <if test="isenabled != null">IsEnabled = #{isenabled},</if>
+        </trim>
+        where Id = #{id}
+    </update>
+
+    <delete id="deleteCodeEducationById" parameterType="Long">
+        delete from code_education where Id = #{id}
+    </delete>
+
+    <delete id="deleteCodeEducationByIds" parameterType="String">
+        delete from code_education where Id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

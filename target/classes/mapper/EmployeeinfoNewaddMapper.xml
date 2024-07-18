@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.primax.bestsigntransfer.admin.mapper.EmployeeinfoNewaddMapper">
+
+    <resultMap type="EmployeeinfoNewadd" id="EmployeeinfoNewaddResult">
+        <result property="empno"    column="EmpNo"    />
+        <result property="entrytype"    column="EntryType"    />
+        <result property="usertype"    column="UserType"    />
+        <result property="jobcode"    column="JobCode"    />
+        <result property="jobtype"    column="JobType"    />
+        <result property="speciljob"    column="SpecilJob"    />
+        <result property="swipcardstate"    column="SwipCardState"    />
+        <result property="classtype"    column="ClassType"    />
+        <result property="salary"    column="Salary"    />
+        <result property="timecontrol"    column="TimeControl"    />
+        <result property="contracttype"    column="ContractType"    />
+        <result property="contractyear"    column="ContractYear"    />
+        <result property="outcompanyid"    column="OutCompanyID"    />
+        <result property="factorycode"    column="FactoryCode"    />
+        <result property="parentareacode"    column="ParentAreaCode"    />
+        <result property="childareacode"    column="ChildAreaCode"    />
+        <result property="contractunitcode"    column="ContractUnitCode"    />
+        <result property="probation"    column="Probation"    />
+        <result property="createdate"    column="CreateDate"    />
+        <result property="iccard"    column="ICCard"    />
+    </resultMap>
+
+    <sql id="selectEmployeeinfoNewaddVo">
+        select EmpNo, EntryType, UserType, JobCode, JobType, SpecilJob, SwipCardState, ClassType, Salary, TimeControl, ContractType, ContractYear, OutCompanyID, FactoryCode, ParentAreaCode, ChildAreaCode, ContractUnitCode, Probation, CreateDate, ICCard from employeeinfo_newadd
+    </sql>
+
+    <select id="selectEmployeeinfoNewaddList" parameterType="EmployeeinfoNewadd" resultMap="EmployeeinfoNewaddResult">
+        <include refid="selectEmployeeinfoNewaddVo"/>
+        <where>
+            <if test="empno != null  and empno != ''"> and EmpNo = #{empno}</if>
+            <if test="entrytype != null  and entrytype != ''"> and EntryType = #{entrytype}</if>
+            <if test="usertype != null  and usertype != ''"> and UserType = #{usertype}</if>
+            <if test="jobcode != null  and jobcode != ''"> and JobCode = #{jobcode}</if>
+            <if test="jobtype != null  and jobtype != ''"> and JobType = #{jobtype}</if>
+            <if test="speciljob != null  and speciljob != ''"> and SpecilJob = #{speciljob}</if>
+            <if test="swipcardstate != null  and swipcardstate != ''"> and SwipCardState = #{swipcardstate}</if>
+            <if test="classtype != null  and classtype != ''"> and ClassType = #{classtype}</if>
+            <if test="salary != null  and salary != ''"> and Salary = #{salary}</if>
+            <if test="timecontrol != null  and timecontrol != ''"> and TimeControl = #{timecontrol}</if>
+            <if test="contracttype != null  and contracttype != ''"> and ContractType = #{contracttype}</if>
+            <if test="contractyear != null  and contractyear != ''"> and ContractYear = #{contractyear}</if>
+            <if test="outcompanyid != null  and outcompanyid != ''"> and OutCompanyID = #{outcompanyid}</if>
+            <if test="factorycode != null  and factorycode != ''"> and FactoryCode = #{factorycode}</if>
+            <if test="parentareacode != null  and parentareacode != ''"> and ParentAreaCode = #{parentareacode}</if>
+            <if test="childareacode != null  and childareacode != ''"> and ChildAreaCode = #{childareacode}</if>
+            <if test="contractunitcode != null  and contractunitcode != ''"> and ContractUnitCode = #{contractunitcode}</if>
+            <if test="probation != null "> and Probation = #{probation}</if>
+            <if test="createdate != null "> and CreateDate = #{createdate}</if>
+            <if test="iccard != null  and iccard != ''"> and ICCard = #{iccard}</if>
+        </where>
+    </select>
+
+    <select id="selectEmployeeinfoNewaddByEmpno" parameterType="String" resultMap="EmployeeinfoNewaddResult">
+        <include refid="selectEmployeeinfoNewaddVo"/>
+        where EmpNo = #{empno}
+    </select>
+
+    <insert id="insertEmployeeinfoNewadd" parameterType="EmployeeinfoNewadd">
+        insert into employeeinfo_newadd
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="empno != null and empno != ''">EmpNo,</if>
+            <if test="entrytype != null">EntryType,</if>
+            <if test="usertype != null">UserType,</if>
+            <if test="jobcode != null">JobCode,</if>
+            <if test="jobtype != null">JobType,</if>
+            <if test="speciljob != null">SpecilJob,</if>
+            <if test="swipcardstate != null">SwipCardState,</if>
+            <if test="classtype != null">ClassType,</if>
+            <if test="salary != null">Salary,</if>
+            <if test="timecontrol != null">TimeControl,</if>
+            <if test="contracttype != null">ContractType,</if>
+            <if test="contractyear != null">ContractYear,</if>
+            <if test="outcompanyid != null">OutCompanyID,</if>
+            <if test="factorycode != null">FactoryCode,</if>
+            <if test="parentareacode != null">ParentAreaCode,</if>
+            <if test="childareacode != null">ChildAreaCode,</if>
+            <if test="contractunitcode != null">ContractUnitCode,</if>
+            <if test="probation != null">Probation,</if>
+            <if test="createdate != null">CreateDate,</if>
+            <if test="iccard != null">ICCard,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="empno != null and empno != ''">#{empno},</if>
+            <if test="entrytype != null">#{entrytype},</if>
+            <if test="usertype != null">#{usertype},</if>
+            <if test="jobcode != null">#{jobcode},</if>
+            <if test="jobtype != null">#{jobtype},</if>
+            <if test="speciljob != null">#{speciljob},</if>
+            <if test="swipcardstate != null">#{swipcardstate},</if>
+            <if test="classtype != null">#{classtype},</if>
+            <if test="salary != null">#{salary},</if>
+            <if test="timecontrol != null">#{timecontrol},</if>
+            <if test="contracttype != null">#{contracttype},</if>
+            <if test="contractyear != null">#{contractyear},</if>
+            <if test="outcompanyid != null">#{outcompanyid},</if>
+            <if test="factorycode != null">#{factorycode},</if>
+            <if test="parentareacode != null">#{parentareacode},</if>
+            <if test="childareacode != null">#{childareacode},</if>
+            <if test="contractunitcode != null">#{contractunitcode},</if>
+            <if test="probation != null">#{probation},</if>
+            <if test="createdate != null">#{createdate},</if>
+            <if test="iccard != null">#{iccard},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEmployeeinfoNewadd" parameterType="EmployeeinfoNewadd">
+        update employeeinfo_newadd
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="entrytype != null">EntryType = #{entrytype},</if>
+            <if test="usertype != null">UserType = #{usertype},</if>
+            <if test="jobcode != null">JobCode = #{jobcode},</if>
+            <if test="jobtype != null">JobType = #{jobtype},</if>
+            <if test="speciljob != null">SpecilJob = #{speciljob},</if>
+            <if test="swipcardstate != null">SwipCardState = #{swipcardstate},</if>
+            <if test="classtype != null">ClassType = #{classtype},</if>
+            <if test="salary != null">Salary = #{salary},</if>
+            <if test="timecontrol != null">TimeControl = #{timecontrol},</if>
+            <if test="contracttype != null">ContractType = #{contracttype},</if>
+            <if test="contractyear != null">ContractYear = #{contractyear},</if>
+            <if test="outcompanyid != null">OutCompanyID = #{outcompanyid},</if>
+            <if test="factorycode != null">FactoryCode = #{factorycode},</if>
+            <if test="parentareacode != null">ParentAreaCode = #{parentareacode},</if>
+            <if test="childareacode != null">ChildAreaCode = #{childareacode},</if>
+            <if test="contractunitcode != null">ContractUnitCode = #{contractunitcode},</if>
+            <if test="probation != null">Probation = #{probation},</if>
+            <if test="createdate != null">CreateDate = #{createdate},</if>
+            <if test="iccard != null">ICCard = #{iccard},</if>
+        </trim>
+        where EmpNo = #{empno}
+    </update>
+
+    <delete id="deleteEmployeeinfoNewaddByEmpno" parameterType="String">
+        delete from employeeinfo_newadd where EmpNo = #{empno}
+    </delete>
+
+    <delete id="deleteEmployeeinfoNewaddByEmpnos" parameterType="String">
+        delete from employeeinfo_newadd where EmpNo in
+        <foreach item="empno" collection="array" open="(" separator="," close=")">
+            #{empno}
+        </foreach>
+    </delete>
+</mapper>

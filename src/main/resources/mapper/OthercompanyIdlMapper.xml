@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.primax.bestsigntransfer.admin.mapper.OthercompanyIdlMapper">
+
+    <resultMap type="OthercompanyIdl" id="OthercompanyIdlResult">
+        <result property="detailid"    column="DetailId"    />
+        <result property="company"    column="Company"    />
+        <result property="activitytype"    column="ActivityType"    />
+        <result property="job"    column="Job"    />
+        <result property="termoffice"    column="TermOffice"    />
+        <result property="parentid"    column="ParentId"    />
+    </resultMap>
+
+    <sql id="selectOthercompanyIdlVo">
+        select DetailId, Company, ActivityType, Job, TermOffice, ParentId from othercompany_idl
+    </sql>
+
+    <select id="selectOthercompanyIdlList" parameterType="OthercompanyIdl" resultMap="OthercompanyIdlResult">
+        <include refid="selectOthercompanyIdlVo"/>
+        <where>
+            <if test="company != null  and company != ''"> and Company = #{company}</if>
+            <if test="activitytype != null  and activitytype != ''"> and ActivityType = #{activitytype}</if>
+            <if test="job != null  and job != ''"> and Job = #{job}</if>
+            <if test="termoffice != null  and termoffice != ''"> and TermOffice = #{termoffice}</if>
+            <if test="parentid != null  and parentid != ''"> and ParentId = #{parentid}</if>
+        </where>
+    </select>
+
+    <select id="selectOthercompanyIdlByDetailid" parameterType="Long" resultMap="OthercompanyIdlResult">
+        <include refid="selectOthercompanyIdlVo"/>
+        where DetailId = #{detailid}
+    </select>
+
+    <insert id="insertOthercompanyIdl" parameterType="OthercompanyIdl">
+        insert into othercompany_idl
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="detailid != null">DetailId,</if>
+            <if test="company != null">Company,</if>
+            <if test="activitytype != null">ActivityType,</if>
+            <if test="job != null">Job,</if>
+            <if test="termoffice != null">TermOffice,</if>
+            <if test="parentid != null">ParentId,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="detailid != null">#{detailid},</if>
+            <if test="company != null">#{company},</if>
+            <if test="activitytype != null">#{activitytype},</if>
+            <if test="job != null">#{job},</if>
+            <if test="termoffice != null">#{termoffice},</if>
+            <if test="parentid != null">#{parentid},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOthercompanyIdl" parameterType="OthercompanyIdl">
+        update othercompany_idl
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="company != null">Company = #{company},</if>
+            <if test="activitytype != null">ActivityType = #{activitytype},</if>
+            <if test="job != null">Job = #{job},</if>
+            <if test="termoffice != null">TermOffice = #{termoffice},</if>
+            <if test="parentid != null">ParentId = #{parentid},</if>
+        </trim>
+        where DetailId = #{detailid}
+    </update>
+
+    <delete id="deleteOthercompanyIdlByDetailid" parameterType="Long">
+        delete from othercompany_idl where DetailId = #{detailid}
+    </delete>
+
+    <delete id="deleteOthercompanyIdlByDetailids" parameterType="String">
+        delete from othercompany_idl where DetailId in
+        <foreach item="detailid" collection="array" open="(" separator="," close=")">
+            #{detailid}
+        </foreach>
+    </delete>
+</mapper>

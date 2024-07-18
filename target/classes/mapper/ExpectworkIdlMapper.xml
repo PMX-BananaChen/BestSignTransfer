@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.primax.bestsigntransfer.admin.mapper.ExpectworkIdlMapper">
+    
+    <resultMap type="ExpectworkIdl" id="ExpectworkIdlResult">
+        <result property="detailid"    column="DetailId"    />
+        <result property="workexperience"    column="WorkExperience"    />
+        <result property="hobbies"    column="Hobbies"    />
+        <result property="position"    column="Position"    />
+        <result property="salary"    column="Salary"    />
+        <result property="parentid"    column="ParentId"    />
+    </resultMap>
+
+    <sql id="selectExpectworkIdlVo">
+        select DetailId, WorkExperience, Hobbies, Position, Salary, ParentId from expectwork_idl
+    </sql>
+
+    <select id="selectExpectworkIdlList" parameterType="ExpectworkIdl" resultMap="ExpectworkIdlResult">
+        <include refid="selectExpectworkIdlVo"/>
+        <where>  
+            <if test="workexperience != null  and workexperience != ''"> and WorkExperience = #{workexperience}</if>
+            <if test="hobbies != null  and hobbies != ''"> and Hobbies = #{hobbies}</if>
+            <if test="position != null  and position != ''"> and Position = #{position}</if>
+            <if test="salary != null  and salary != ''"> and Salary = #{salary}</if>
+            <if test="parentid != null  and parentid != ''"> and ParentId = #{parentid}</if>
+        </where>
+    </select>
+    
+    <select id="selectExpectworkIdlByDetailid" parameterType="Long" resultMap="ExpectworkIdlResult">
+        <include refid="selectExpectworkIdlVo"/>
+        where DetailId = #{detailid}
+    </select>
+        
+    <insert id="insertExpectworkIdl" parameterType="ExpectworkIdl">
+        insert into expectwork_idl
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="detailid != null">DetailId,</if>
+            <if test="workexperience != null">WorkExperience,</if>
+            <if test="hobbies != null">Hobbies,</if>
+            <if test="position != null">Position,</if>
+            <if test="salary != null">Salary,</if>
+            <if test="parentid != null">ParentId,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="detailid != null">#{detailid},</if>
+            <if test="workexperience != null">#{workexperience},</if>
+            <if test="hobbies != null">#{hobbies},</if>
+            <if test="position != null">#{position},</if>
+            <if test="salary != null">#{salary},</if>
+            <if test="parentid != null">#{parentid},</if>
+         </trim>
+    </insert>
+
+    <update id="updateExpectworkIdl" parameterType="ExpectworkIdl">
+        update expectwork_idl
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="workexperience != null">WorkExperience = #{workexperience},</if>
+            <if test="hobbies != null">Hobbies = #{hobbies},</if>
+            <if test="position != null">Position = #{position},</if>
+            <if test="salary != null">Salary = #{salary},</if>
+            <if test="parentid != null">ParentId = #{parentid},</if>
+        </trim>
+        where DetailId = #{detailid}
+    </update>
+
+    <delete id="deleteExpectworkIdlByDetailid" parameterType="Long">
+        delete from expectwork_idl where DetailId = #{detailid}
+    </delete>
+
+    <delete id="deleteExpectworkIdlByDetailids" parameterType="String">
+        delete from expectwork_idl where DetailId in 
+        <foreach item="detailid" collection="array" open="(" separator="," close=")">
+            #{detailid}
+        </foreach>
+    </delete>
+</mapper>

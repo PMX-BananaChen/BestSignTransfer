@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.primax.bestsigntransfer.admin.mapper.WorkexperienceIdlMapper">
+
+    <resultMap type="WorkexperienceIdl" id="WorkexperienceIdlResult">
+        <result property="detailid"    column="DetailId"    />
+        <result property="job"    column="Job"    />
+        <result property="company"    column="Company"    />
+        <result property="manager"    column="Manager"    />
+        <result property="salary"    column="Salary"    />
+        <result property="reason"    column="Reason"    />
+        <result property="employmentdate"    column="EmploymentDate"    />
+        <result property="resignationdate"    column="ResignationDate"    />
+        <result property="department"    column="Department"    />
+        <result property="parentid"    column="ParentId"    />
+    </resultMap>
+
+    <sql id="selectWorkexperienceIdlVo">
+        select DetailId, Job, Company, Manager, Salary, Reason, EmploymentDate, ResignationDate, Department, ParentId from workexperience_idl
+    </sql>
+
+    <select id="selectWorkexperienceIdlList" parameterType="WorkexperienceIdl" resultMap="WorkexperienceIdlResult">
+        <include refid="selectWorkexperienceIdlVo"/>
+        <where>
+            <if test="job != null  and job != ''"> and Job = #{job}</if>
+            <if test="company != null  and company != ''"> and Company = #{company}</if>
+            <if test="manager != null  and manager != ''"> and Manager = #{manager}</if>
+            <if test="salary != null  and salary != ''"> and Salary = #{salary}</if>
+            <if test="reason != null  and reason != ''"> and Reason = #{reason}</if>
+            <if test="employmentdate != null "> and EmploymentDate = #{employmentdate}</if>
+            <if test="resignationdate != null "> and ResignationDate = #{resignationdate}</if>
+            <if test="department != null "> and Department = #{department}</if>
+            <if test="parentid != null  and parentid != ''"> and ParentId = #{parentid}</if>
+        </where>
+    </select>
+
+    <select id="selectWorkexperienceIdlByDetailid" parameterType="Long" resultMap="WorkexperienceIdlResult">
+        <include refid="selectWorkexperienceIdlVo"/>
+        where DetailId = #{detailid}
+    </select>
+
+    <insert id="insertWorkexperienceIdl" parameterType="WorkexperienceIdl">
+        insert into workexperience_idl
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="detailid != null">DetailId,</if>
+            <if test="job != null">Job,</if>
+            <if test="company != null">Company,</if>
+            <if test="manager != null">Manager,</if>
+            <if test="salary != null">Salary,</if>
+            <if test="reason != null">Reason,</if>
+            <if test="employmentdate != null">EmploymentDate,</if>
+            <if test="resignationdate != null">ResignationDate,</if>
+            <if test="department != null">Department,</if>
+            <if test="parentid != null">ParentId,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="detailid != null">#{detailid},</if>
+            <if test="job != null">#{job},</if>
+            <if test="company != null">#{company},</if>
+            <if test="manager != null">#{manager},</if>
+            <if test="salary != null">#{salary},</if>
+            <if test="reason != null">#{reason},</if>
+            <if test="employmentdate != null">#{employmentdate},</if>
+            <if test="resignationdate != null">#{resignationdate},</if>
+            <if test="department != null">#{department},</if>
+            <if test="parentid != null">#{parentid},</if>
+         </trim>
+    </insert>
+
+    <update id="updateWorkexperienceIdl" parameterType="WorkexperienceIdl">
+        update workexperience_idl
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="job != null">Job = #{job},</if>
+            <if test="company != null">Company = #{company},</if>
+            <if test="manager != null">Manager = #{manager},</if>
+            <if test="salary != null">Salary = #{salary},</if>
+            <if test="reason != null">Reason = #{reason},</if>
+            <if test="employmentdate != null">EmploymentDate = #{employmentdate},</if>
+            <if test="resignationdate != null">ResignationDate = #{resignationdate},</if>
+            <if test="department != null">Department = #{department},</if>
+            <if test="parentid != null">ParentId = #{parentid},</if>
+        </trim>
+        where DetailId = #{detailid}
+    </update>
+
+    <delete id="deleteWorkexperienceIdlByDetailid" parameterType="Long">
+        delete from workexperience_idl where DetailId = #{detailid}
+    </delete>
+
+    <delete id="deleteWorkexperienceIdlByDetailids" parameterType="String">
+        delete from workexperience_idl where DetailId in
+        <foreach item="detailid" collection="array" open="(" separator="," close=")">
+            #{detailid}
+        </foreach>
+    </delete>
+</mapper>

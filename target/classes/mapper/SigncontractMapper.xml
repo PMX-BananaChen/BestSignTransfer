@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.primax.bestsigntransfer.admin.mapper.SigncontractMapper">
+
+    <resultMap type="Signcontract" id="SigncontractResult">
+        <result property="contract"    column="Contract"    />
+        <result property="types"    column="Types"    />
+        <result property="companyroleid"    column="companyRoleId"    />
+        <result property="createtime"    column="CreateTime"    />
+        <result property="employeeroleid"    column="employeeRoleId"    />
+        <result property="status"    column="Status"    />
+        <result property="account"    column="Account"    />
+    </resultMap>
+
+    <sql id="selectSigncontractVo">
+        select  [Contract],[Types],companyRoleId,employeeRoleId,[Status],[Area],[Account],CreateTime from signcontract
+    </sql>
+
+    <select id="selectSigncontractList" parameterType="Signcontract" resultMap="SigncontractResult">
+        <include refid="selectSigncontractVo"/>
+        <where>
+            <if test="types != null  and types != ''"> and Types = #{types}</if>
+            <if test="companyroleid != null  and companyroleid != ''"> and companyRoleId = #{companyroleid}</if>
+            <if test="createtime != null "> and CreateTime = #{createtime}</if>
+            <if test="employeeroleid != null  and employeeroleid != ''"> and employeeRoleId = #{employeeroleid}</if>
+            <if test="status != null  and status != ''"> and Status = #{status}</if>
+        </where>
+    </select>
+
+    <select id="selectSigncontractByContract" parameterType="String" resultMap="SigncontractResult">
+        <include refid="selectSigncontractVo"/>
+        where Contract = #{contract}
+    </select>
+
+    <insert id="insertSigncontract" parameterType="Signcontract">
+        insert into signcontract
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="contract != null">Contract,</if>
+            <if test="types != null">Types,</if>
+            <if test="companyroleid != null">companyRoleId,</if>
+            <if test="createtime != null">CreateTime,</if>
+            <if test="employeeroleid != null">employeeRoleId,</if>
+            <if test="status != null">Status,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="contract != null">#{contract},</if>
+            <if test="types != null">#{types},</if>
+            <if test="companyroleid != null">#{companyroleid},</if>
+            <if test="createtime != null">#{createtime},</if>
+            <if test="employeeroleid != null">#{employeeroleid},</if>
+            <if test="status != null">#{status},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSigncontract" parameterType="Signcontract">
+        update signcontract
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="types != null">Types = #{types},</if>
+            <if test="companyroleid != null">companyRoleId = #{companyroleid},</if>
+            <if test="createtime != null">CreateTime = #{createtime},</if>
+            <if test="employeeroleid != null">employeeRoleId = #{employeeroleid},</if>
+            <if test="status != null">Status = #{status},</if>
+        </trim>
+        where Contract = #{contract}
+    </update>
+
+    <delete id="deleteSigncontractByContract" parameterType="String">
+        delete from signcontract where Contract = #{contract}
+    </delete>
+
+    <delete id="deleteSigncontractByContracts" parameterType="String">
+        delete from signcontract where Contract in
+        <foreach item="contract" collection="array" open="(" separator="," close=")">
+            #{contract}
+        </foreach>
+    </delete>
+</mapper>

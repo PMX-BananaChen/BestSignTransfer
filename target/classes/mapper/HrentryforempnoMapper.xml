@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.primax.bestsigntransfer.admin.mapper.HrentryforempnoMapper">
+    
+    <resultMap type="Hrentryforempno" id="HrentryforempnoResult">
+        <result property="identityno"    column="IdentityNo"    />
+        <result property="empno"    column="EmpNo"    />
+    </resultMap>
+
+    <sql id="selectHrentryforempnoVo">
+        select IdentityNo, EmpNo from hrentryforempno
+    </sql>
+
+    <select id="selectHrentryforempnoList" parameterType="Hrentryforempno" resultMap="HrentryforempnoResult">
+        <include refid="selectHrentryforempnoVo"/>
+        <where>  
+            <if test="identityno != null  and identityno != ''"> and IdentityNo = #{identityno}</if>
+            <if test="empno != null  and empno != ''"> and EmpNo = #{empno}</if>
+        </where>
+    </select>
+    
+    <select id="selectHrentryforempnoByIdentityno" parameterType="String" resultMap="HrentryforempnoResult">
+        <include refid="selectHrentryforempnoVo"/>
+        where IdentityNo = #{identityno}
+    </select>
+        
+    <insert id="insertHrentryforempno" parameterType="Hrentryforempno">
+        insert into hrentryforempno
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="identityno != null">IdentityNo,</if>
+            <if test="empno != null">EmpNo,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="identityno != null">#{identityno},</if>
+            <if test="empno != null">#{empno},</if>
+         </trim>
+    </insert>
+
+    <update id="updateHrentryforempno" parameterType="Hrentryforempno">
+        update hrentryforempno
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="empno != null">EmpNo = #{empno},</if>
+        </trim>
+        where IdentityNo = #{identityno}
+    </update>
+
+    <delete id="deleteHrentryforempnoByIdentityno" parameterType="String">
+        delete from hrentryforempno where IdentityNo = #{identityno}
+    </delete>
+
+    <delete id="deleteHrentryforempnoByIdentitynos" parameterType="String">
+        delete from hrentryforempno where IdentityNo in 
+        <foreach item="identityno" collection="array" open="(" separator="," close=")">
+            #{identityno}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.primax.bestsigntransfer.admin.mapper.AreaMapper">
+
+    <resultMap type="Area" id="AreaResult">
+        <result property="areaid"    column="AreaId"    />
+        <result property="areaname"    column="AreaName"    />
+        <result property="active"    column="Active"    />
+    </resultMap>
+
+    <sql id="selectAreaVo">
+        select AreaId, AreaName, Active from area
+    </sql>
+
+    <select id="selectAreaList" parameterType="Area" resultMap="AreaResult">
+        <include refid="selectAreaVo"/>
+        <where>
+            <if test="areaid != null  and areaid != ''"> and AreaId = #{areaid}</if>
+            <if test="areaname != null  and areaname != ''"> and AreaName like concat('%', #{areaname}, '%')</if>
+            <if test="active != null  and active != ''"> and Active = #{active}</if>
+        </where>
+    </select>
+
+    <select id="selectAreaByAreaid" parameterType="String" resultMap="AreaResult">
+        <include refid="selectAreaVo"/>
+        where AreaId = #{areaid}
+    </select>
+
+    <insert id="insertArea" parameterType="Area">
+        insert into area
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="areaid != null">AreaId,</if>
+            <if test="areaname != null">AreaName,</if>
+            <if test="active != null">Active,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="areaid != null">#{areaid},</if>
+            <if test="areaname != null">#{areaname},</if>
+            <if test="active != null">#{active},</if>
+         </trim>
+    </insert>
+
+    <update id="updateArea" parameterType="Area">
+        update area
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="areaname != null">AreaName = #{areaname},</if>
+            <if test="active != null">Active = #{active},</if>
+        </trim>
+        where AreaId = #{areaid}
+    </update>
+
+    <delete id="deleteAreaByAreaid" parameterType="String">
+        delete from area where AreaId = #{areaid}
+    </delete>
+
+    <delete id="deleteAreaByAreaids" parameterType="String">
+        delete from area where AreaId in
+        <foreach item="areaid" collection="array" open="(" separator="," close=")">
+            #{areaid}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.primax.bestsigntransfer.admin.mapper.SysApplychannelMapper">
+    
+    <resultMap type="SysApplychannel" id="SysApplychannelResult">
+        <result property="applychannelid"    column="ApplyChannelID"    />
+        <result property="applychannel"    column="ApplyChannel"    />
+    </resultMap>
+
+    <sql id="selectSysApplychannelVo">
+        select ApplyChannelID, ApplyChannel from sys_applychannel
+    </sql>
+
+    <select id="selectSysApplychannelList" parameterType="SysApplychannel" resultMap="SysApplychannelResult">
+        <include refid="selectSysApplychannelVo"/>
+        <where>  
+            <if test="applychannelid != null  and applychannelid != ''"> and ApplyChannelID = #{applychannelid}</if>
+            <if test="applychannel != null  and applychannel != ''"> and ApplyChannel = #{applychannel}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysApplychannelByApplychannelid" parameterType="String" resultMap="SysApplychannelResult">
+        <include refid="selectSysApplychannelVo"/>
+        where ApplyChannelID = #{applychannelid}
+    </select>
+        
+    <insert id="insertSysApplychannel" parameterType="SysApplychannel">
+        insert into sys_applychannel
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="applychannelid != null">ApplyChannelID,</if>
+            <if test="applychannel != null">ApplyChannel,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="applychannelid != null">#{applychannelid},</if>
+            <if test="applychannel != null">#{applychannel},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysApplychannel" parameterType="SysApplychannel">
+        update sys_applychannel
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="applychannel != null">ApplyChannel = #{applychannel},</if>
+        </trim>
+        where ApplyChannelID = #{applychannelid}
+    </update>
+
+    <delete id="deleteSysApplychannelByApplychannelid" parameterType="String">
+        delete from sys_applychannel where ApplyChannelID = #{applychannelid}
+    </delete>
+
+    <delete id="deleteSysApplychannelByApplychannelids" parameterType="String">
+        delete from sys_applychannel where ApplyChannelID in 
+        <foreach item="applychannelid" collection="array" open="(" separator="," close=")">
+            #{applychannelid}
+        </foreach>
+    </delete>
+</mapper>

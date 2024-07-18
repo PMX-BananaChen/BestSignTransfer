@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.primax.bestsigntransfer.admin.mapper.SysPropagandaMapper">
+    
+    <resultMap type="SysPropaganda" id="SysPropagandaResult">
+        <result property="propagandaid"    column="PropagandaID"    />
+        <result property="propaganda"    column="Propaganda"    />
+    </resultMap>
+
+    <sql id="selectSysPropagandaVo">
+        select PropagandaID, Propaganda from sys_propaganda
+    </sql>
+
+    <select id="selectSysPropagandaList" parameterType="SysPropaganda" resultMap="SysPropagandaResult">
+        <include refid="selectSysPropagandaVo"/>
+        <where>  
+            <if test="propagandaid != null  and propagandaid != ''"> and PropagandaID = #{propagandaid}</if>
+            <if test="propaganda != null  and propaganda != ''"> and Propaganda = #{propaganda}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysPropagandaByPropagandaid" parameterType="String" resultMap="SysPropagandaResult">
+        <include refid="selectSysPropagandaVo"/>
+        where PropagandaID = #{propagandaid}
+    </select>
+        
+    <insert id="insertSysPropaganda" parameterType="SysPropaganda">
+        insert into sys_propaganda
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="propagandaid != null">PropagandaID,</if>
+            <if test="propaganda != null">Propaganda,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="propagandaid != null">#{propagandaid},</if>
+            <if test="propaganda != null">#{propaganda},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysPropaganda" parameterType="SysPropaganda">
+        update sys_propaganda
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="propaganda != null">Propaganda = #{propaganda},</if>
+        </trim>
+        where PropagandaID = #{propagandaid}
+    </update>
+
+    <delete id="deleteSysPropagandaByPropagandaid" parameterType="String">
+        delete from sys_propaganda where PropagandaID = #{propagandaid}
+    </delete>
+
+    <delete id="deleteSysPropagandaByPropagandaids" parameterType="String">
+        delete from sys_propaganda where PropagandaID in 
+        <foreach item="propagandaid" collection="array" open="(" separator="," close=")">
+            #{propagandaid}
+        </foreach>
+    </delete>
+</mapper>

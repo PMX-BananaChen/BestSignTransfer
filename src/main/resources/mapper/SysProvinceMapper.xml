@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.primax.bestsigntransfer.admin.mapper.SysProvinceMapper">
+    
+    <resultMap type="SysProvince" id="SysProvinceResult">
+        <result property="id"    column="Id"    />
+        <result property="provincename"    column="ProvinceName"    />
+        <result property="provinceno"    column="ProvinceNo"    />
+    </resultMap>
+
+    <sql id="selectSysProvinceVo">
+        select Id, ProvinceName, ProvinceNo from sys_province
+    </sql>
+
+    <select id="selectSysProvinceList" parameterType="SysProvince" resultMap="SysProvinceResult">
+        <include refid="selectSysProvinceVo"/>
+        <where>  
+            <if test="provincename != null  and provincename != ''"> and ProvinceName like concat('%', #{provincename}, '%')</if>
+            <if test="provinceno != null "> and ProvinceNo = #{provinceno}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysProvinceById" parameterType="Long" resultMap="SysProvinceResult">
+        <include refid="selectSysProvinceVo"/>
+        where Id = #{id}
+    </select>
+        
+    <insert id="insertSysProvince" parameterType="SysProvince">
+        insert into sys_province
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">Id,</if>
+            <if test="provincename != null">ProvinceName,</if>
+            <if test="provinceno != null">ProvinceNo,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="provincename != null">#{provincename},</if>
+            <if test="provinceno != null">#{provinceno},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysProvince" parameterType="SysProvince">
+        update sys_province
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="provincename != null">ProvinceName = #{provincename},</if>
+            <if test="provinceno != null">ProvinceNo = #{provinceno},</if>
+        </trim>
+        where Id = #{id}
+    </update>
+
+    <delete id="deleteSysProvinceById" parameterType="Long">
+        delete from sys_province where Id = #{id}
+    </delete>
+
+    <delete id="deleteSysProvinceByIds" parameterType="String">
+        delete from sys_province where Id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

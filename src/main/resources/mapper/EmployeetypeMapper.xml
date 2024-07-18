@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.primax.bestsigntransfer.admin.mapper.EmployeetypeMapper">
+
+    <resultMap type="Employeetype" id="EmployeetypeResult">
+        <result property="employeeid"    column="EmployeeID"    />
+        <result property="employeetype"    column="EmployeeType"    />
+        <result property="createdate"    column="CreateDate"    />
+    </resultMap>
+
+    <sql id="selectEmployeetypeVo">
+        select EmployeeID, EmployeeType, CreateDate from employeetype
+    </sql>
+
+    <select id="selectEmployeetypeList" parameterType="Employeetype" resultMap="EmployeetypeResult">
+        <include refid="selectEmployeetypeVo"/>
+        <where>
+            <if test="employeeid != null  and employeeid != ''"> and EmployeeID = #{employeeid}</if>
+            <if test="employeetype != null  and employeetype != ''"> and EmployeeType = #{employeetype}</if>
+            <if test="createdate != null "> and CreateDate = #{createdate}</if>
+        </where>
+    </select>
+
+    <select id="selectEmployeetypeByEmployeeid" parameterType="String" resultMap="EmployeetypeResult">
+        <include refid="selectEmployeetypeVo"/>
+        where EmployeeID = #{employeeid}
+    </select>
+
+    <insert id="insertEmployeetype" parameterType="Employeetype">
+        insert into employeetype
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="employeeid != null">EmployeeID,</if>
+            <if test="employeetype != null">EmployeeType,</if>
+            <if test="createdate != null">CreateDate,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="employeeid != null">#{employeeid},</if>
+            <if test="employeetype != null">#{employeetype},</if>
+            <if test="createdate != null">#{createdate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEmployeetype" parameterType="Employeetype">
+        update employeetype
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="employeetype != null">EmployeeType = #{employeetype},</if>
+            <if test="createdate != null">CreateDate = #{createdate},</if>
+        </trim>
+        where EmployeeID = #{employeeid}
+    </update>
+
+    <delete id="deleteEmployeetypeByEmployeeid" parameterType="String">
+        delete from employeetype where EmployeeID = #{employeeid}
+    </delete>
+
+    <delete id="deleteEmployeetypeByEmployeeids" parameterType="String">
+        delete from employeetype where EmployeeID in
+        <foreach item="employeeid" collection="array" open="(" separator="," close=")">
+            #{employeeid}
+        </foreach>
+    </delete>
+</mapper>

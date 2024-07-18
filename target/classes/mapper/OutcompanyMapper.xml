@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.primax.bestsigntransfer.admin.mapper.OutcompanyMapper">
+
+    <resultMap type="Outcompany" id="OutcompanyResult">
+        <result property="outcompanyid"    column="OutCompanyID"    />
+        <result property="outcompanyname"    column="OutCompanyName"    />
+        <result property="createdate"    column="CreateDate"    />
+        <result property="operator"    column="Operator"    />
+        <result property="contact"    column="Contact"    />
+        <result property="corporation"    column="Corporation"    />
+        <result property="address"    column="Address"    />
+        <result property="economy"    column="Economy"    />
+        <result property="contactnumber"    column="ContactNumber"    />
+    </resultMap>
+
+    <sql id="selectOutcompanyVo">
+        select OutCompanyID, OutCompanyName, CreateDate, Operator, Contact, Corporation, Address, Economy, ContactNumber from outcompany
+    </sql>
+
+    <select id="selectOutcompanyList" parameterType="Outcompany" resultMap="OutcompanyResult">
+        <include refid="selectOutcompanyVo"/>
+        <where>
+            <if test="outcompanyid != null  and outcompanyid != ''"> and OutCompanyID = #{outcompanyid}</if>
+            <if test="outcompanyname != null  and outcompanyname != ''"> and OutCompanyName like concat('%', #{outcompanyname}, '%')</if>
+            <if test="createdate != null "> and CreateDate = #{createdate}</if>
+            <if test="operator != null  and operator != ''"> and Operator = #{operator}</if>
+            <if test="contact != null  and contact != ''"> and Contact = #{contact}</if>
+            <if test="corporation != null  and corporation != ''"> and Corporation = #{corporation}</if>
+            <if test="address != null  and address != ''"> and Address = #{address}</if>
+            <if test="economy != null  and economy != ''"> and Economy = #{economy}</if>
+            <if test="contactnumber != null  and contactnumber != ''"> and ContactNumber = #{contactnumber}</if>
+        </where>
+    </select>
+
+    <select id="selectOutcompanyByOutcompanyid" parameterType="String" resultMap="OutcompanyResult">
+        <include refid="selectOutcompanyVo"/>
+        where OutCompanyID = #{outcompanyid}
+    </select>
+
+    <insert id="insertOutcompany" parameterType="Outcompany">
+        insert into outcompany
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="outcompanyid != null">OutCompanyID,</if>
+            <if test="outcompanyname != null">OutCompanyName,</if>
+            <if test="createdate != null">CreateDate,</if>
+            <if test="operator != null">Operator,</if>
+            <if test="contact != null">Contact,</if>
+            <if test="corporation != null">Corporation,</if>
+            <if test="address != null">Address,</if>
+            <if test="economy != null">Economy,</if>
+            <if test="contactnumber != null">ContactNumber,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="outcompanyid != null">#{outcompanyid},</if>
+            <if test="outcompanyname != null">#{outcompanyname},</if>
+            <if test="createdate != null">#{createdate},</if>
+            <if test="operator != null">#{operator},</if>
+            <if test="contact != null">#{contact},</if>
+            <if test="corporation != null">#{corporation},</if>
+            <if test="address != null">#{address},</if>
+            <if test="economy != null">#{economy},</if>
+            <if test="contactnumber != null">#{contactnumber},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOutcompany" parameterType="Outcompany">
+        update outcompany
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="outcompanyname != null">OutCompanyName = #{outcompanyname},</if>
+            <if test="createdate != null">CreateDate = #{createdate},</if>
+            <if test="operator != null">Operator = #{operator},</if>
+            <if test="contact != null">Contact = #{contact},</if>
+            <if test="corporation != null">Corporation = #{corporation},</if>
+            <if test="address != null">Address = #{address},</if>
+            <if test="economy != null">Economy = #{economy},</if>
+            <if test="contactnumber != null">ContactNumber = #{contactnumber},</if>
+        </trim>
+        where OutCompanyID = #{outcompanyid}
+    </update>
+
+    <delete id="deleteOutcompanyByOutcompanyid" parameterType="String">
+        delete from outcompany where OutCompanyID = #{outcompanyid}
+    </delete>
+
+    <delete id="deleteOutcompanyByOutcompanyids" parameterType="String">
+        delete from outcompany where OutCompanyID in
+        <foreach item="outcompanyid" collection="array" open="(" separator="," close=")">
+            #{outcompanyid}
+        </foreach>
+    </delete>
+</mapper>

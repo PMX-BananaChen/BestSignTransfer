@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.primax.bestsigntransfer.admin.mapper.LanguageIdlMapper">
+
+    <resultMap type="LanguageIdl" id="LanguageIdlResult">
+        <result property="detailid"    column="DetailId"    />
+        <result property="language"    column="Language"    />
+        <result property="languagelevel"    column="Languagelevel"    />
+        <result property="languageability"    column="LanguageAbility"    />
+        <result property="parentid"    column="ParentId"    />
+    </resultMap>
+
+    <sql id="selectLanguageIdlVo">
+        select DetailId, Language, Languagelevel, LanguageAbility, ParentId from language_idl
+    </sql>
+
+    <select id="selectLanguageIdlList" parameterType="LanguageIdl" resultMap="LanguageIdlResult">
+        <include refid="selectLanguageIdlVo"/>
+        <where>
+            <if test="language != null  and language != ''"> and Language = #{language}</if>
+            <if test="languagelevel != null "> and Languagelevel = #{languagelevel}</if>
+            <if test="languageability != null  and languageability != ''"> and LanguageAbility = #{languageability}</if>
+            <if test="parentid != null  and parentid != ''"> and ParentId = #{parentid}</if>
+        </where>
+    </select>
+
+    <select id="selectLanguageIdlByDetailid" parameterType="Long" resultMap="LanguageIdlResult">
+        <include refid="selectLanguageIdlVo"/>
+        where DetailId = #{detailid}
+    </select>
+
+    <insert id="insertLanguageIdl" parameterType="LanguageIdl">
+        insert into language_idl
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="detailid != null">DetailId,</if>
+            <if test="language != null">Language,</if>
+            <if test="languagelevel != null">Languagelevel,</if>
+            <if test="languageability != null">LanguageAbility,</if>
+            <if test="parentid != null">ParentId,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="detailid != null">#{detailid},</if>
+            <if test="language != null">#{language},</if>
+            <if test="languagelevel != null">#{languagelevel},</if>
+            <if test="languageability != null">#{languageability},</if>
+            <if test="parentid != null">#{parentid},</if>
+         </trim>
+    </insert>
+
+    <update id="updateLanguageIdl" parameterType="LanguageIdl">
+        update language_idl
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="language != null">Language = #{language},</if>
+            <if test="languagelevel != null">Languagelevel = #{languagelevel},</if>
+            <if test="languageability != null">LanguageAbility = #{languageability},</if>
+            <if test="parentid != null">ParentId = #{parentid},</if>
+        </trim>
+        where DetailId = #{detailid}
+    </update>
+
+    <delete id="deleteLanguageIdlByDetailid" parameterType="Long">
+        delete from language_idl where DetailId = #{detailid}
+    </delete>
+
+    <delete id="deleteLanguageIdlByDetailids" parameterType="String">
+        delete from language_idl where DetailId in
+        <foreach item="detailid" collection="array" open="(" separator="," close=")">
+            #{detailid}
+        </foreach>
+    </delete>
+</mapper>

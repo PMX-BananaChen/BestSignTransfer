@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.primax.bestsigntransfer.admin.mapper.ContractyearMapper">
+
+    <resultMap type="Contractyear" id="ContractyearResult">
+        <result property="contractyearid"    column="ContractYearID"    />
+        <result property="contractyear"    column="ContractYear"    />
+        <result property="createdate"    column="CreateDate"    />
+    </resultMap>
+
+    <sql id="selectContractyearVo">
+        select ContractYearID, ContractYear, CreateDate from contractyear
+    </sql>
+
+    <select id="selectContractyearList" parameterType="Contractyear" resultMap="ContractyearResult">
+        <include refid="selectContractyearVo"/>
+        <where>
+            <if test="contractyearid != null  and contractyearid != ''"> and ContractYearID = #{contractyearid}</if>
+            <if test="contractyear != null  and contractyear != ''"> and ContractYear = #{contractyear}</if>
+            <if test="createdate != null "> and CreateDate = #{createdate}</if>
+        </where>
+    </select>
+
+    <select id="selectContractyearByContractyearid" parameterType="String" resultMap="ContractyearResult">
+        <include refid="selectContractyearVo"/>
+        where ContractYearID = #{contractyearid}
+    </select>
+
+    <insert id="insertContractyear" parameterType="Contractyear">
+        insert into contractyear
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="contractyearid != null">ContractYearID,</if>
+            <if test="contractyear != null">ContractYear,</if>
+            <if test="createdate != null">CreateDate,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="contractyearid != null">#{contractyearid},</if>
+            <if test="contractyear != null">#{contractyear},</if>
+            <if test="createdate != null">#{createdate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateContractyear" parameterType="Contractyear">
+        update contractyear
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="contractyear != null">ContractYear = #{contractyear},</if>
+            <if test="createdate != null">CreateDate = #{createdate},</if>
+        </trim>
+        where ContractYearID = #{contractyearid}
+    </update>
+
+    <delete id="deleteContractyearByContractyearid" parameterType="String">
+        delete from contractyear where ContractYearID = #{contractyearid}
+    </delete>
+
+    <delete id="deleteContractyearByContractyearids" parameterType="String">
+        delete from contractyear where ContractYearID in
+        <foreach item="contractyearid" collection="array" open="(" separator="," close=")">
+            #{contractyearid}
+        </foreach>
+    </delete>
+</mapper>

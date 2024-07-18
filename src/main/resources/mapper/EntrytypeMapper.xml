@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.primax.bestsigntransfer.admin.mapper.EntrytypeMapper">
+
+    <resultMap type="Entrytype" id="EntrytypeResult">
+        <result property="entryid"    column="EntryID"    />
+        <result property="entrytype"    column="EntryType"    />
+        <result property="createdate"    column="CreateDate"    />
+    </resultMap>
+
+    <sql id="selectEntrytypeVo">
+        select EntryID, EntryType, CreateDate from entrytype
+    </sql>
+
+    <select id="selectEntrytypeList" parameterType="Entrytype" resultMap="EntrytypeResult">
+        <include refid="selectEntrytypeVo"/>
+        <where>
+            <if test="entryid != null  and entryid != ''"> and EntryID = #{entryid}</if>
+            <if test="entrytype != null  and entrytype != ''"> and EntryType = #{entrytype}</if>
+            <if test="createdate != null "> and CreateDate = #{createdate}</if>
+        </where>
+    </select>
+
+    <select id="selectEntrytypeByEntryid" parameterType="String" resultMap="EntrytypeResult">
+        <include refid="selectEntrytypeVo"/>
+        where EntryID = #{entryid}
+    </select>
+
+    <insert id="insertEntrytype" parameterType="Entrytype">
+        insert into entrytype
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="entryid != null">EntryID,</if>
+            <if test="entrytype != null">EntryType,</if>
+            <if test="createdate != null">CreateDate,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="entryid != null">#{entryid},</if>
+            <if test="entrytype != null">#{entrytype},</if>
+            <if test="createdate != null">#{createdate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEntrytype" parameterType="Entrytype">
+        update entrytype
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="entrytype != null">EntryType = #{entrytype},</if>
+            <if test="createdate != null">CreateDate = #{createdate},</if>
+        </trim>
+        where EntryID = #{entryid}
+    </update>
+
+    <delete id="deleteEntrytypeByEntryid" parameterType="String">
+        delete from entrytype where EntryID = #{entryid}
+    </delete>
+
+    <delete id="deleteEntrytypeByEntryids" parameterType="String">
+        delete from entrytype where EntryID in
+        <foreach item="entryid" collection="array" open="(" separator="," close=")">
+            #{entryid}
+        </foreach>
+    </delete>
+</mapper>

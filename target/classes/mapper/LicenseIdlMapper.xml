@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.primax.bestsigntransfer.admin.mapper.LicenseIdlMapper">
+    
+    <resultMap type="LicenseIdl" id="LicenseIdlResult">
+        <result property="detailid"    column="DetailId"    />
+        <result property="number"    column="Number"    />
+        <result property="license"    column="License"    />
+        <result property="unit"    column="Unit"    />
+        <result property="startdate"    column="StartDate"    />
+        <result property="enddate"    column="EndDate"    />
+        <result property="hour"    column="Hour"    />
+        <result property="parentid"    column="ParentId"    />
+    </resultMap>
+
+    <sql id="selectLicenseIdlVo">
+        select DetailId, Number, License, Unit, StartDate, EndDate, Hour, ParentId from license_idl
+    </sql>
+
+    <select id="selectLicenseIdlList" parameterType="LicenseIdl" resultMap="LicenseIdlResult">
+        <include refid="selectLicenseIdlVo"/>
+        <where>  
+            <if test="number != null  and number != ''"> and Number = #{number}</if>
+            <if test="license != null  and license != ''"> and License = #{license}</if>
+            <if test="unit != null  and unit != ''"> and Unit = #{unit}</if>
+            <if test="startdate != null "> and StartDate = #{startdate}</if>
+            <if test="enddate != null "> and EndDate = #{enddate}</if>
+            <if test="hour != null  and hour != ''"> and Hour = #{hour}</if>
+            <if test="parentid != null  and parentid != ''"> and ParentId = #{parentid}</if>
+        </where>
+    </select>
+    
+    <select id="selectLicenseIdlByDetailid" parameterType="Long" resultMap="LicenseIdlResult">
+        <include refid="selectLicenseIdlVo"/>
+        where DetailId = #{detailid}
+    </select>
+        
+    <insert id="insertLicenseIdl" parameterType="LicenseIdl">
+        insert into license_idl
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="detailid != null">DetailId,</if>
+            <if test="number != null">Number,</if>
+            <if test="license != null">License,</if>
+            <if test="unit != null">Unit,</if>
+            <if test="startdate != null">StartDate,</if>
+            <if test="enddate != null">EndDate,</if>
+            <if test="hour != null">Hour,</if>
+            <if test="parentid != null">ParentId,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="detailid != null">#{detailid},</if>
+            <if test="number != null">#{number},</if>
+            <if test="license != null">#{license},</if>
+            <if test="unit != null">#{unit},</if>
+            <if test="startdate != null">#{startdate},</if>
+            <if test="enddate != null">#{enddate},</if>
+            <if test="hour != null">#{hour},</if>
+            <if test="parentid != null">#{parentid},</if>
+         </trim>
+    </insert>
+
+    <update id="updateLicenseIdl" parameterType="LicenseIdl">
+        update license_idl
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="number != null">Number = #{number},</if>
+            <if test="license != null">License = #{license},</if>
+            <if test="unit != null">Unit = #{unit},</if>
+            <if test="startdate != null">StartDate = #{startdate},</if>
+            <if test="enddate != null">EndDate = #{enddate},</if>
+            <if test="hour != null">Hour = #{hour},</if>
+            <if test="parentid != null">ParentId = #{parentid},</if>
+        </trim>
+        where DetailId = #{detailid}
+    </update>
+
+    <delete id="deleteLicenseIdlByDetailid" parameterType="Long">
+        delete from license_idl where DetailId = #{detailid}
+    </delete>
+
+    <delete id="deleteLicenseIdlByDetailids" parameterType="String">
+        delete from license_idl where DetailId in 
+        <foreach item="detailid" collection="array" open="(" separator="," close=")">
+            #{detailid}
+        </foreach>
+    </delete>
+</mapper>

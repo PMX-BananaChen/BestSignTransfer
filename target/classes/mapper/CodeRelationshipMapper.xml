@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.primax.bestsigntransfer.admin.mapper.CodeRelationshipMapper">
+
+    <resultMap type="CodeRelationship" id="CodeRelationshipResult">
+        <result property="id"    column="ID"    />
+        <result property="relno"    column="RelNo"    />
+        <result property="relname"    column="RelName"    />
+        <result property="isenabled"    column="IsEnabled"    />
+    </resultMap>
+
+    <sql id="selectCodeRelationshipVo">
+        select ID, RelNo, RelName, IsEnabled from code_relationship
+    </sql>
+
+    <select id="selectCodeRelationshipList" parameterType="CodeRelationship" resultMap="CodeRelationshipResult">
+        <include refid="selectCodeRelationshipVo"/>
+        <where>
+            <if test="relno != null "> and RelNo = #{relno}</if>
+            <if test="relname != null  and relname != ''"> and RelName like concat('%', #{relname}, '%')</if>
+            <if test="isenabled != null  and isenabled != ''"> and IsEnabled = #{isenabled}</if>
+        </where>
+    </select>
+
+    <select id="selectCodeRelationshipById" parameterType="Long" resultMap="CodeRelationshipResult">
+        <include refid="selectCodeRelationshipVo"/>
+        where ID = #{id}
+    </select>
+
+    <insert id="insertCodeRelationship" parameterType="CodeRelationship">
+        insert into code_relationship
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">ID,</if>
+            <if test="relno != null">RelNo,</if>
+            <if test="relname != null">RelName,</if>
+            <if test="isenabled != null">IsEnabled,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="relno != null">#{relno},</if>
+            <if test="relname != null">#{relname},</if>
+            <if test="isenabled != null">#{isenabled},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCodeRelationship" parameterType="CodeRelationship">
+        update code_relationship
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="relno != null">RelNo = #{relno},</if>
+            <if test="relname != null">RelName = #{relname},</if>
+            <if test="isenabled != null">IsEnabled = #{isenabled},</if>
+        </trim>
+        where ID = #{id}
+    </update>
+
+    <delete id="deleteCodeRelationshipById" parameterType="Long">
+        delete from code_relationship where ID = #{id}
+    </delete>
+
+    <delete id="deleteCodeRelationshipByIds" parameterType="String">
+        delete from code_relationship where ID in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

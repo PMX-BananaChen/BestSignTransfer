@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.primax.bestsigntransfer.admin.mapper.ReligiousactivitiesMapper">
+
+    <resultMap type="Religiousactivities" id="ReligiousactivitiesResult">
+        <result property="detailid"    column="DetailId"    />
+        <result property="timeactivity"    column="TimeActivity"    />
+        <result property="assist"    column="Assist"    />
+        <result property="assistancecontent"    column="AssistanceContent"    />
+        <result property="parentid"    column="ParentId"    />
+    </resultMap>
+
+    <sql id="selectReligiousactivitiesVo">
+        select DetailId, TimeActivity, Assist, AssistanceContent, ParentId from religiousactivities
+    </sql>
+
+    <select id="selectReligiousactivitiesList" parameterType="Religiousactivities" resultMap="ReligiousactivitiesResult">
+        <include refid="selectReligiousactivitiesVo"/>
+        <where>
+            <if test="timeactivity != null "> and TimeActivity = #{timeactivity}</if>
+            <if test="assist != null  and assist != ''"> and Assist = #{assist}</if>
+            <if test="assistancecontent != null  and assistancecontent != ''"> and AssistanceContent = #{assistancecontent}</if>
+            <if test="parentid != null  and parentid != ''"> and ParentId = #{parentid}</if>
+        </where>
+    </select>
+
+    <select id="selectReligiousactivitiesByDetailid" parameterType="Long" resultMap="ReligiousactivitiesResult">
+        <include refid="selectReligiousactivitiesVo"/>
+        where DetailId = #{detailid}
+    </select>
+
+    <insert id="insertReligiousactivities" parameterType="Religiousactivities">
+        insert into religiousactivities
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="detailid != null">DetailId,</if>
+            <if test="timeactivity != null">TimeActivity,</if>
+            <if test="assist != null">Assist,</if>
+            <if test="assistancecontent != null">AssistanceContent,</if>
+            <if test="parentid != null">ParentId,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="detailid != null">#{detailid},</if>
+            <if test="timeactivity != null">#{timeactivity},</if>
+            <if test="assist != null">#{assist},</if>
+            <if test="assistancecontent != null">#{assistancecontent},</if>
+            <if test="parentid != null">#{parentid},</if>
+         </trim>
+    </insert>
+
+    <update id="updateReligiousactivities" parameterType="Religiousactivities">
+        update religiousactivities
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="timeactivity != null">TimeActivity = #{timeactivity},</if>
+            <if test="assist != null">Assist = #{assist},</if>
+            <if test="assistancecontent != null">AssistanceContent = #{assistancecontent},</if>
+            <if test="parentid != null">ParentId = #{parentid},</if>
+        </trim>
+        where DetailId = #{detailid}
+    </update>
+
+    <delete id="deleteReligiousactivitiesByDetailid" parameterType="Long">
+        delete from religiousactivities where DetailId = #{detailid}
+    </delete>
+
+    <delete id="deleteReligiousactivitiesByDetailids" parameterType="String">
+        delete from religiousactivities where DetailId in
+        <foreach item="detailid" collection="array" open="(" separator="," close=")">
+            #{detailid}
+        </foreach>
+    </delete>
+</mapper>

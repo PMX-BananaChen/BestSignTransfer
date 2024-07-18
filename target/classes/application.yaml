@@ -1,0 +1,82 @@
+server:
+  port: 8888
+
+
+
+
+spring:
+
+  aop:
+    proxy-target-class: true
+    auto: true
+
+  autoconfigure:
+    exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
+
+  datasource:
+    dynamic:
+      primary: HREntryRegistration #设置默认的数据源或者数据源组,默认值即为master
+      strict: false #严格匹配数据源,默认false. true未匹配到指定数据源时抛异常,false使用默认数据源
+      datasource:
+        DL_Inauguration_DG:
+#          正式信息化10.40.50.107
+#          测试信息化10.40.1.172
+          url: jdbc:sqlserver://10.40.50.107:1433;DatabaseName=DL_Inauguration_DG
+          username: dluser
+          password: user@DL
+          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        DL_Inauguration_CQ:
+          url: jdbc:sqlserver://10.40.50.107:1433;DatabaseName=DL_Inauguration_CQ
+          username: dluser
+          password: user@DL
+          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        DL_Inauguration_KS:
+          url: jdbc:sqlserver://10.40.50.107:1433;DatabaseName=DL_Inauguration_KS
+          username: dluser
+          password: user@DL
+          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        HREntryRegistration:
+          url: jdbc:sqlserver://10.40.50.36:1433;DatabaseName=HREntryRegistration
+          username: monica
+          password: monica@3312
+          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        SmartAccess:
+          url: jdbc:sqlserver://10.40.50.36:1433;DatabaseName=SmartAccess
+          username: faceuser
+          password: fA@@cE
+          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+#        HREntryRegistration:
+#          url: jdbc:sqlserver://10.40.1.172:1433;DatabaseName=HREntryRegistration
+#          username: monica
+#          password: monica@3312
+#          driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+
+# mybatis-plus 配置
+mybatis-plus:
+  tenant-enable: ture
+  mapper-locations: classpath:/mapper/**/*Mapper.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: com.primax.**.domain
+  global-config:
+    banner: false
+    db-config:
+      # 主键类型 0:数据库ID自增 1.未定义 2.用户输入 3 id_worker 4.uuid 5.id_worker字符串表示
+      id-type: AUTO
+      #字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断"
+      field-strategy: NOT_NULL
+      # 默认数据库表下划线命名
+      table-underline: true
+      # 逻辑删除配置
+      # 逻辑删除全局值（1表示已删除，这也是Mybatis Plus的默认配置）
+      logic-delete-value: 1
+      # 逻辑未删除全局值（0表示未删除，这也是Mybatis Plus的默认配置）
+      logic-not-delete-value: 0
+  type-handlers-package:  com.jthe.dcserver.handler
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#    log-iml: org.apache.ibatis.logging.slf4j.Slf4jImpl
+    cache-enabled: false
+
+

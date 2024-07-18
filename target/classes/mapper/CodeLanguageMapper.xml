@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.primax.bestsigntransfer.admin.mapper.CodeLanguageMapper">
+
+    <resultMap type="CodeLanguage" id="CodeLanguageResult">
+        <result property="id"    column="Id"    />
+        <result property="languageid"    column="LanguageID"    />
+        <result property="language"    column="Language"    />
+        <result property="isenable"    column="Isenable"    />
+    </resultMap>
+
+    <sql id="selectCodeLanguageVo">
+        select Id, LanguageID, Language, Isenable from code_language
+    </sql>
+
+    <select id="selectCodeLanguageList" parameterType="CodeLanguage" resultMap="CodeLanguageResult">
+        <include refid="selectCodeLanguageVo"/>
+        <where>
+            <if test="languageid != null  and languageid != ''"> and LanguageID = #{languageid}</if>
+            <if test="language != null  and language != ''"> and Language = #{language}</if>
+            <if test="isenable != null  and isenable != ''"> and Isenable = #{isenable}</if>
+        </where>
+    </select>
+
+    <select id="selectCodeLanguageById" parameterType="Long" resultMap="CodeLanguageResult">
+        <include refid="selectCodeLanguageVo"/>
+        where Id = #{id}
+    </select>
+
+    <insert id="insertCodeLanguage" parameterType="CodeLanguage">
+        insert into code_language
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">Id,</if>
+            <if test="languageid != null">LanguageID,</if>
+            <if test="language != null">Language,</if>
+            <if test="isenable != null">Isenable,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="languageid != null">#{languageid},</if>
+            <if test="language != null">#{language},</if>
+            <if test="isenable != null">#{isenable},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCodeLanguage" parameterType="CodeLanguage">
+        update code_language
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="languageid != null">LanguageID = #{languageid},</if>
+            <if test="language != null">Language = #{language},</if>
+            <if test="isenable != null">Isenable = #{isenable},</if>
+        </trim>
+        where Id = #{id}
+    </update>
+
+    <delete id="deleteCodeLanguageById" parameterType="Long">
+        delete from code_language where Id = #{id}
+    </delete>
+
+    <delete id="deleteCodeLanguageByIds" parameterType="String">
+        delete from code_language where Id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

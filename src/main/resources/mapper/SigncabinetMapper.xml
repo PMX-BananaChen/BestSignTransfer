@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.primax.bestsigntransfer.admin.mapper.SigncabinetMapper">
+
+    <resultMap type="Signcabinet" id="SigncabinetResult">
+        <result property="cabinet"    column="Cabinet"    />
+        <result property="types"    column="Types"    />
+        <result property="createtime"    column="CreateTime"    />
+        <result property="status"    column="Status"    />
+        <result property="area"    column="Area"    />
+
+    </resultMap>
+
+    <sql id="selectSigncabinetVo">
+        select Cabinet, Types, CreateTime, Status,Area from signcabinet
+    </sql>
+
+    <select id="selectSigncabinetList" parameterType="Signcabinet" resultMap="SigncabinetResult">
+        <include refid="selectSigncabinetVo"/>
+        <where>
+            <if test="types != null  and types != ''"> and Types = #{types}</if>
+            <if test="createtime != null "> and CreateTime = #{createtime}</if>
+            <if test="status != null  and status != ''"> and Status = #{status}</if>
+            <if test="area != null  and area != ''"> and Area = #{area}</if>
+        </where>
+    </select>
+
+    <select id="selectSigncabinetByCabinet" parameterType="String" resultMap="SigncabinetResult">
+        <include refid="selectSigncabinetVo"/>
+        where Cabinet = #{cabinet} and Status = 1
+    </select>
+
+    <insert id="insertSigncabinet" parameterType="Signcabinet">
+        insert into signcabinet
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="cabinet != null">Cabinet,</if>
+            <if test="types != null">Types,</if>
+            <if test="createtime != null">CreateTime,</if>
+            <if test="status != null">Status,</if>
+            <if test="area != null">Area,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="cabinet != null">#{cabinet},</if>
+            <if test="types != null">#{types},</if>
+            <if test="createtime != null">#{createtime},</if>
+            <if test="status != null">#{status},</if>
+            <if test="area != null">#{area},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSigncabinet" parameterType="Signcabinet">
+        update signcabinet
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="types != null">Types = #{types},</if>
+            <if test="createtime != null">CreateTime = #{createtime},</if>
+            <if test="status != null">Status = #{status},</if>
+            <if test="area != null">Area = #{area},</if>
+        </trim>
+        where Cabinet = #{cabinet}
+    </update>
+
+    <delete id="deleteSigncabinetByCabinet" parameterType="String">
+        delete from signcabinet where Cabinet = #{cabinet}
+    </delete>
+
+    <delete id="deleteSigncabinetByCabinets" parameterType="String">
+        delete from signcabinet where Cabinet in
+        <foreach item="cabinet" collection="array" open="(" separator="," close=")">
+            #{cabinet}
+        </foreach>
+    </delete>
+</mapper>

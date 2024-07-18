@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.primax.bestsigntransfer.admin.mapper.EmployeinfoMapper">
+
+    <resultMap type="Employeinfo" id="EmployeinfoResult">
+        <result property="empno"    column="EmpNo"    />
+        <result property="empname"    column="EmpName"    />
+        <result property="areaid"    column="AreaId"    />
+        <result property="areaname"    column="AreaName"    />
+        <result property="empTitle"    column="Emp_Title"    />
+        <result property="empTitleId"    column="Emp_Title_ID"    />
+        <result property="empTitleName"    column="Emp_Title_Name"    />
+        <result property="emptypeid"    column="EmpTypeID"    />
+        <result property="emptypename"    column="EmpTypeName"    />
+        <result property="idcardno"    column="IDCardNO"    />
+        <result property="sex"    column="Sex"    />
+        <result property="nation"    column="Nation"    />
+        <result property="birthday"    column="Birthday"    />
+        <result property="address"    column="Address"    />
+        <result property="signdept"    column="Signdept"    />
+        <result property="validtermofstart"    column="ValidtermOfStart"    />
+        <result property="validtermofend"    column="ValidtermOfEnd"    />
+        <result property="iccardno"    column="ICCardNo"    />
+        <result property="ynPhoto"    column="YN_Photo"    />
+        <result property="ynPrint"    column="YN_Print"    />
+        <result property="empIndate"    column="Emp_InDate"    />
+        <result property="empOutdate"    column="Emp_OutDate"    />
+        <result property="dimissionReason"    column="Dimission_Reason"    />
+        <result property="blacklistYn"    column="BlackList_YN"    />
+        <result property="createdate"    column="CreateDate"    />
+        <result property="updatedate"    column="UpdateDate"    />
+        <result property="hcpupdate"    column="HCPUpdate"    />
+        <result property="remark"    column="Remark"    />
+        <result property="filecabinetStatus"    column="FileCabinet_Status"    />
+        <result property="contractStatus"    column="Contract_Status"    />
+        <result property="crime"    column="Crime"    />
+        <result property="crimestatus"    column="CrimeStatus"    />
+        <result property="wechatno"    column="WechatNo"    />
+    </resultMap>
+
+    <sql id="selectEmployeinfoVo">
+        select EmpNo, EmpName, AreaId, AreaName, Emp_Title, Emp_Title_ID, Emp_Title_Name, EmpTypeID, EmpTypeName, IDCardNO, Sex, Nation, Birthday, Address, Signdept, ValidtermOfStart, ValidtermOfEnd, ICCardNo, YN_Photo, YN_Print, Emp_InDate, Emp_OutDate, Dimission_Reason, BlackList_YN, CreateDate, UpdateDate, HCPUpdate, Remark, FileCabinet_Status, Contract_Status, Crime, CrimeStatus, WechatNo from employeinfo
+    </sql>
+
+    <select id="selectEmployeinfoList" parameterType="Employeinfo" resultMap="EmployeinfoResult">
+        <include refid="selectEmployeinfoVo"/>
+        <where>
+            <if test="empname != null  and empname != ''"> and EmpName like concat('%', #{empname}, '%')</if>
+            <if test="areaid != null  and areaid != ''"> and AreaId = #{areaid}</if>
+            <if test="areaname != null  and areaname != ''"> and AreaName like concat('%', #{areaname}, '%')</if>
+            <if test="empTitle != null  and empTitle != ''"> and Emp_Title = #{empTitle}</if>
+            <if test="empTitleId != null  and empTitleId != ''"> and Emp_Title_ID = #{empTitleId}</if>
+            <if test="empTitleName != null  and empTitleName != ''"> and Emp_Title_Name like concat('%', #{empTitleName}, '%')</if>
+            <if test="emptypeid != null  and emptypeid != ''"> and EmpTypeID = #{emptypeid}</if>
+            <if test="emptypename != null  and emptypename != ''"> and EmpTypeName like concat('%', #{emptypename}, '%')</if>
+            <if test="idcardno != null  and idcardno != ''"> and IDCardNO = #{idcardno}</if>
+            <if test="sex != null  and sex != ''"> and Sex = #{sex}</if>
+            <if test="nation != null  and nation != ''"> and Nation = #{nation}</if>
+            <if test="birthday != null  and birthday != ''"> and Birthday = #{birthday}</if>
+            <if test="address != null  and address != ''"> and Address = #{address}</if>
+            <if test="signdept != null  and signdept != ''"> and Signdept = #{signdept}</if>
+            <if test="validtermofstart != null  and validtermofstart != ''"> and ValidtermOfStart = #{validtermofstart}</if>
+            <if test="validtermofend != null  and validtermofend != ''"> and ValidtermOfEnd = #{validtermofend}</if>
+            <if test="iccardno != null  and iccardno != ''"> and ICCardNo = #{iccardno}</if>
+            <if test="ynPhoto != null  and ynPhoto != ''"> and YN_Photo = #{ynPhoto}</if>
+            <if test="ynPrint != null  and ynPrint != ''"> and YN_Print = #{ynPrint}</if>
+            <if test="empIndate != null  and empIndate != ''"> and Emp_InDate = #{empIndate}</if>
+            <if test="empOutdate != null  and empOutdate != ''"> and Emp_OutDate = #{empOutdate}</if>
+            <if test="dimissionReason != null  and dimissionReason != ''"> and Dimission_Reason = #{dimissionReason}</if>
+            <if test="blacklistYn != null  and blacklistYn != ''"> and BlackList_YN = #{blacklistYn}</if>
+            <if test="createdate != null "> and CreateDate = #{createdate}</if>
+            <if test="updatedate != null "> and UpdateDate = #{updatedate}</if>
+            <if test="hcpupdate != null "> and HCPUpdate = #{hcpupdate}</if>
+            <if test="remark != null  and remark != ''"> and Remark = #{remark}</if>
+            <if test="filecabinetStatus != null  and filecabinetStatus != ''"> and FileCabinet_Status = #{filecabinetStatus}</if>
+            <if test="contractStatus != null  and contractStatus != ''"> and Contract_Status = #{contractStatus}</if>
+            <if test="crime != null  and crime != ''"> and Crime = #{crime}</if>
+            <if test="crimestatus != null  and crimestatus != ''"> and CrimeStatus = #{crimestatus}</if>
+            <if test="wechatno != null  and wechatno != ''"> and WechatNo = #{wechatno}</if>
+        </where>
+    </select>
+
+    <select id="selectEmployeinfoByEmpno" parameterType="String" resultMap="EmployeinfoResult">
+        <include refid="selectEmployeinfoVo"/>
+        where EmpNo = #{empno}
+    </select>
+
+    <select id="selectEndDate" parameterType="String" resultType="String">
+        SELECT
+            CASE
+                WHEN
+                    H.ContractType= '11' THEN
+                    (
+                        (
+                            CONVERT (
+                                    VARCHAR ( 10 ),
+                                    dateadd( dd,- 1, ( CONVERT ( VARCHAR ( 100 ), dateadd( MONTH,+ 5, Emp_InDate ), 120 ) ) ),
+                                    120
+                                )
+                            )
+                        ) ELSE (
+                (
+                    CONVERT (
+                            VARCHAR ( 10 ),
+                            dateadd(
+                                    dd,- 1,
+                                    ( CONVERT ( VARCHAR ( 100 ), dateadd( YEAR,+ CAST ( H.ContractYear AS INT ), Emp_InDate ), 120 ) )
+                                ),
+                            120
+                        )
+                    )
+                )
+                END AS ENDDA1_0016
+        FROM
+            EmployeInfo a
+                LEFT JOIN EmployeeInfo_NewAdd H ON a.empno= H.EmpNo
+        WHERE
+            a.empno = #{empno}
+          AND Emp_OutDate = '9999-12-31'
+
+    </select>
+
+    <insert id="insertEmployeinfo" parameterType="Employeinfo">
+        insert into employeinfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="empno != null">EmpNo,</if>
+            <if test="empname != null">EmpName,</if>
+            <if test="areaid != null">AreaId,</if>
+            <if test="areaname != null">AreaName,</if>
+            <if test="empTitle != null">Emp_Title,</if>
+            <if test="empTitleId != null">Emp_Title_ID,</if>
+            <if test="empTitleName != null">Emp_Title_Name,</if>
+            <if test="emptypeid != null">EmpTypeID,</if>
+            <if test="emptypename != null">EmpTypeName,</if>
+            <if test="idcardno != null">IDCardNO,</if>
+            <if test="sex != null">Sex,</if>
+            <if test="nation != null">Nation,</if>
+            <if test="birthday != null">Birthday,</if>
+            <if test="address != null">Address,</if>
+            <if test="signdept != null">Signdept,</if>
+            <if test="validtermofstart != null">ValidtermOfStart,</if>
+            <if test="validtermofend != null">ValidtermOfEnd,</if>
+            <if test="iccardno != null">ICCardNo,</if>
+            <if test="ynPhoto != null">YN_Photo,</if>
+            <if test="ynPrint != null">YN_Print,</if>
+            <if test="empIndate != null">Emp_InDate,</if>
+            <if test="empOutdate != null">Emp_OutDate,</if>
+            <if test="dimissionReason != null">Dimission_Reason,</if>
+            <if test="blacklistYn != null">BlackList_YN,</if>
+            <if test="createdate != null">CreateDate,</if>
+            <if test="updatedate != null">UpdateDate,</if>
+            <if test="hcpupdate != null">HCPUpdate,</if>
+            <if test="remark != null">Remark,</if>
+            <if test="filecabinetStatus != null">FileCabinet_Status,</if>
+            <if test="contractStatus != null">Contract_Status,</if>
+            <if test="crime != null">Crime,</if>
+            <if test="crimestatus != null">CrimeStatus,</if>
+            <if test="wechatno != null">WechatNo,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="empno != null">#{empno},</if>
+            <if test="empname != null">#{empname},</if>
+            <if test="areaid != null">#{areaid},</if>
+            <if test="areaname != null">#{areaname},</if>
+            <if test="empTitle != null">#{empTitle},</if>
+            <if test="empTitleId != null">#{empTitleId},</if>
+            <if test="empTitleName != null">#{empTitleName},</if>
+            <if test="emptypeid != null">#{emptypeid},</if>
+            <if test="emptypename != null">#{emptypename},</if>
+            <if test="idcardno != null">#{idcardno},</if>
+            <if test="sex != null">#{sex},</if>
+            <if test="nation != null">#{nation},</if>
+            <if test="birthday != null">#{birthday},</if>
+            <if test="address != null">#{address},</if>
+            <if test="signdept != null">#{signdept},</if>
+            <if test="validtermofstart != null">#{validtermofstart},</if>
+            <if test="validtermofend != null">#{validtermofend},</if>
+            <if test="iccardno != null">#{iccardno},</if>
+            <if test="ynPhoto != null">#{ynPhoto},</if>
+            <if test="ynPrint != null">#{ynPrint},</if>
+            <if test="empIndate != null">#{empIndate},</if>
+            <if test="empOutdate != null">#{empOutdate},</if>
+            <if test="dimissionReason != null">#{dimissionReason},</if>
+            <if test="blacklistYn != null">#{blacklistYn},</if>
+            <if test="createdate != null">#{createdate},</if>
+            <if test="updatedate != null">#{updatedate},</if>
+            <if test="hcpupdate != null">#{hcpupdate},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="filecabinetStatus != null">#{filecabinetStatus},</if>
+            <if test="contractStatus != null">#{contractStatus},</if>
+            <if test="crime != null">#{crime},</if>
+            <if test="crimestatus != null">#{crimestatus},</if>
+            <if test="wechatno != null">#{wechatno},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEmployeinfo" parameterType="Employeinfo">
+        update employeinfo
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="empname != null">EmpName = #{empname},</if>
+            <if test="areaid != null">AreaId = #{areaid},</if>
+            <if test="areaname != null">AreaName = #{areaname},</if>
+            <if test="empTitle != null">Emp_Title = #{empTitle},</if>
+            <if test="empTitleId != null">Emp_Title_ID = #{empTitleId},</if>
+            <if test="empTitleName != null">Emp_Title_Name = #{empTitleName},</if>
+            <if test="emptypeid != null">EmpTypeID = #{emptypeid},</if>
+            <if test="emptypename != null">EmpTypeName = #{emptypename},</if>
+            <if test="idcardno != null">IDCardNO = #{idcardno},</if>
+            <if test="sex != null">Sex = #{sex},</if>
+            <if test="nation != null">Nation = #{nation},</if>
+            <if test="birthday != null">Birthday = #{birthday},</if>
+            <if test="address != null">Address = #{address},</if>
+            <if test="signdept != null">Signdept = #{signdept},</if>
+            <if test="validtermofstart != null">ValidtermOfStart = #{validtermofstart},</if>
+            <if test="validtermofend != null">ValidtermOfEnd = #{validtermofend},</if>
+            <if test="iccardno != null">ICCardNo = #{iccardno},</if>
+            <if test="ynPhoto != null">YN_Photo = #{ynPhoto},</if>
+            <if test="ynPrint != null">YN_Print = #{ynPrint},</if>
+            <if test="empIndate != null">Emp_InDate = #{empIndate},</if>
+            <if test="empOutdate != null">Emp_OutDate = #{empOutdate},</if>
+            <if test="dimissionReason != null">Dimission_Reason = #{dimissionReason},</if>
+            <if test="blacklistYn != null">BlackList_YN = #{blacklistYn},</if>
+            <if test="createdate != null">CreateDate = #{createdate},</if>
+            <if test="updatedate != null">UpdateDate = #{updatedate},</if>
+            <if test="hcpupdate != null">HCPUpdate = #{hcpupdate},</if>
+            <if test="remark != null">Remark = #{remark},</if>
+            <if test="filecabinetStatus != null">FileCabinet_Status = #{filecabinetStatus},</if>
+            <if test="contractStatus != null">Contract_Status = #{contractStatus},</if>
+            <if test="crime != null">Crime = #{crime},</if>
+            <if test="crimestatus != null">CrimeStatus = #{crimestatus},</if>
+            <if test="wechatno != null">WechatNo = #{wechatno},</if>
+        </trim>
+        where EmpNo = #{empno}
+    </update>
+
+    <delete id="deleteEmployeinfoByEmpno" parameterType="String">
+        delete from employeinfo where EmpNo = #{empno}
+    </delete>
+
+    <delete id="deleteEmployeinfoByEmpnos" parameterType="String">
+        delete from employeinfo where EmpNo in
+        <foreach item="empno" collection="array" open="(" separator="," close=")">
+            #{empno}
+        </foreach>
+    </delete>
+</mapper>

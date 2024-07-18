@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.primax.bestsigntransfer.admin.mapper.EmployeePhoneMapper">
+
+    <resultMap type="EmployeePhone" id="EmployeePhoneResult">
+        <result property="detailid"    column="DetailId"    />
+        <result property="ptype"    column="Ptype"    />
+        <result property="filename"    column="FileName"    />
+        <result property="filepath"    column="FilePath"    />
+        <result property="picturev"    column="PictureV"    />
+        <result property="mediaid"    column="MediaId"    />
+        <result property="parentid"    column="ParentId"    />
+    </resultMap>
+
+    <sql id="selectEmployeePhoneVo">
+        select DetailId, Ptype, FileName, FilePath, PictureV, MediaId, ParentId from employee_phone
+    </sql>
+
+    <select id="selectEmployeePhoneList" parameterType="EmployeePhone" resultMap="EmployeePhoneResult">
+        <include refid="selectEmployeePhoneVo"/>
+        <where>
+            <if test="ptype != null  and ptype != ''"> and Ptype = #{ptype}</if>
+            <if test="filename != null  and filename != ''"> and FileName like concat('%', #{filename}, '%')</if>
+            <if test="filepath != null  and filepath != ''"> and FilePath = #{filepath}</if>
+            <if test="picturev != null  and picturev != ''"> and PictureV = #{picturev}</if>
+            <if test="mediaid != null  and mediaid != ''"> and MediaId = #{mediaid}</if>
+            <if test="parentid != null  and parentid != ''"> and ParentId = #{parentid}</if>
+        </where>
+    </select>
+
+    <select id="selectEmployeePhoneByDetailid" parameterType="Long" resultMap="EmployeePhoneResult">
+        <include refid="selectEmployeePhoneVo"/>
+        where DetailId = #{detailid}
+    </select>
+
+    <insert id="insertEmployeePhone" parameterType="EmployeePhone">
+        insert into employee_phone
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="detailid != null">DetailId,</if>
+            <if test="ptype != null">Ptype,</if>
+            <if test="filename != null">FileName,</if>
+            <if test="filepath != null">FilePath,</if>
+            <if test="picturev != null">PictureV,</if>
+            <if test="mediaid != null">MediaId,</if>
+            <if test="parentid != null">ParentId,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="detailid != null">#{detailid},</if>
+            <if test="ptype != null">#{ptype},</if>
+            <if test="filename != null">#{filename},</if>
+            <if test="filepath != null">#{filepath},</if>
+            <if test="picturev != null">#{picturev},</if>
+            <if test="mediaid != null">#{mediaid},</if>
+            <if test="parentid != null">#{parentid},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEmployeePhone" parameterType="EmployeePhone">
+        update employee_phone
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="ptype != null">Ptype = #{ptype},</if>
+            <if test="filename != null">FileName = #{filename},</if>
+            <if test="filepath != null">FilePath = #{filepath},</if>
+            <if test="picturev != null">PictureV = #{picturev},</if>
+            <if test="mediaid != null">MediaId = #{mediaid},</if>
+            <if test="parentid != null">ParentId = #{parentid},</if>
+        </trim>
+        where DetailId = #{detailid}
+    </update>
+
+    <delete id="deleteEmployeePhoneByDetailid" parameterType="Long">
+        delete from employee_phone where DetailId = #{detailid}
+    </delete>
+
+    <delete id="deleteEmployeePhoneByDetailids" parameterType="String">
+        delete from employee_phone where DetailId in
+        <foreach item="detailid" collection="array" open="(" separator="," close=")">
+            #{detailid}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.primax.bestsigntransfer.admin.mapper.EmployedeptMapper">
+
+    <resultMap type="Employedept" id="EmployedeptResult">
+        <result property="empno"    column="EmpNo"    />
+        <result property="factory"    column="Factory"    />
+        <result property="deptno"    column="DeptNo"    />
+        <result property="deptname"    column="DeptName"    />
+        <result property="deptprintshotname"    column="DeptPrintShotName"    />
+        <result property="createtime"    column="createtime"    />
+    </resultMap>
+
+    <sql id="selectEmployedeptVo">
+        select EmpNo, Factory, DeptNo, DeptName, DeptPrintShotName, createtime from employedept
+    </sql>
+
+    <select id="selectEmployedeptList" parameterType="Employedept" resultMap="EmployedeptResult">
+        <include refid="selectEmployedeptVo"/>
+        <where>
+            <if test="factory != null  and factory != ''"> and Factory = #{factory}</if>
+            <if test="deptno != null  and deptno != ''"> and DeptNo = #{deptno}</if>
+            <if test="deptname != null  and deptname != ''"> and DeptName like concat('%', #{deptname}, '%')</if>
+            <if test="deptprintshotname != null  and deptprintshotname != ''"> and DeptPrintShotName like concat('%', #{deptprintshotname}, '%')</if>
+            <if test="createtime != null "> and createtime = #{createtime}</if>
+        </where>
+    </select>
+
+    <select id="selectEmployedeptByEmpno" parameterType="String" resultMap="EmployedeptResult">
+        <include refid="selectEmployedeptVo"/>
+        where EmpNo = #{empno}
+    </select>
+
+    <insert id="insertEmployedept" parameterType="Employedept">
+        insert into employedept
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="empno != null">EmpNo,</if>
+            <if test="factory != null">Factory,</if>
+            <if test="deptno != null">DeptNo,</if>
+            <if test="deptname != null">DeptName,</if>
+            <if test="deptprintshotname != null">DeptPrintShotName,</if>
+            <if test="createtime != null">createtime,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="empno != null">#{empno},</if>
+            <if test="factory != null">#{factory},</if>
+            <if test="deptno != null">#{deptno},</if>
+            <if test="deptname != null">#{deptname},</if>
+            <if test="deptprintshotname != null">#{deptprintshotname},</if>
+            <if test="createtime != null">#{createtime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEmployedept" parameterType="Employedept">
+        update employedept
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="factory != null">Factory = #{factory},</if>
+            <if test="deptno != null">DeptNo = #{deptno},</if>
+            <if test="deptname != null">DeptName = #{deptname},</if>
+            <if test="deptprintshotname != null">DeptPrintShotName = #{deptprintshotname},</if>
+            <if test="createtime != null">createtime = #{createtime},</if>
+        </trim>
+        where EmpNo = #{empno}
+    </update>
+
+    <delete id="deleteEmployedeptByEmpno" parameterType="String">
+        delete from employedept where EmpNo = #{empno}
+    </delete>
+
+    <delete id="deleteEmployedeptByEmpnos" parameterType="String">
+        delete from employedept where EmpNo in
+        <foreach item="empno" collection="array" open="(" separator="," close=")">
+            #{empno}
+        </foreach>
+    </delete>
+</mapper>

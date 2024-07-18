@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.primax.bestsigntransfer.admin.mapper.AreasalaryMapper">
+
+    <resultMap type="Areasalary" id="AreasalaryResult">
+        <result property="nid"    column="Nid"    />
+        <result property="areaid"    column="AreaId"    />
+        <result property="areaname"    column="AreaName"    />
+        <result property="empTitle"    column="Emp_Title"    />
+        <result property="salary"    column="Salary"    />
+    </resultMap>
+
+    <sql id="selectAreasalaryVo">
+        select Nid, AreaId, AreaName, Emp_Title, Salary from areasalary
+    </sql>
+
+    <select id="selectAreasalaryList" parameterType="Areasalary" resultMap="AreasalaryResult">
+        <include refid="selectAreasalaryVo"/>
+        <where>
+            <if test="nid != null "> and Nid = #{nid}</if>
+            <if test="areaid != null  and areaid != ''"> and AreaId = #{areaid}</if>
+            <if test="areaname != null  and areaname != ''"> and AreaName like concat('%', #{areaname}, '%')</if>
+            <if test="empTitle != null  and empTitle != ''"> and Emp_Title = #{empTitle}</if>
+            <if test="salary != null "> and Salary = #{salary}</if>
+        </where>
+    </select>
+
+    <select id="selectAreasalaryByNid" parameterType="Long" resultMap="AreasalaryResult">
+        <include refid="selectAreasalaryVo"/>
+        where Nid = #{nid}
+    </select>
+
+    <insert id="insertAreasalary" parameterType="Areasalary">
+        insert into areasalary
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="nid != null">Nid,</if>
+            <if test="areaid != null">AreaId,</if>
+            <if test="areaname != null">AreaName,</if>
+            <if test="empTitle != null">Emp_Title,</if>
+            <if test="salary != null">Salary,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="nid != null">#{nid},</if>
+            <if test="areaid != null">#{areaid},</if>
+            <if test="areaname != null">#{areaname},</if>
+            <if test="empTitle != null">#{empTitle},</if>
+            <if test="salary != null">#{salary},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAreasalary" parameterType="Areasalary">
+        update areasalary
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="areaid != null">AreaId = #{areaid},</if>
+            <if test="areaname != null">AreaName = #{areaname},</if>
+            <if test="empTitle != null">Emp_Title = #{empTitle},</if>
+            <if test="salary != null">Salary = #{salary},</if>
+        </trim>
+        where Nid = #{nid}
+    </update>
+
+    <delete id="deleteAreasalaryByNid" parameterType="Long">
+        delete from areasalary where Nid = #{nid}
+    </delete>
+
+    <delete id="deleteAreasalaryByNids" parameterType="String">
+        delete from areasalary where Nid in
+        <foreach item="nid" collection="array" open="(" separator="," close=")">
+            #{nid}
+        </foreach>
+    </delete>
+</mapper>

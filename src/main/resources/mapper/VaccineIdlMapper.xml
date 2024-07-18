@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.primax.bestsigntransfer.admin.mapper.VaccineIdlMapper">
+
+    <resultMap type="VaccineIdl" id="VaccineIdlResult">
+        <result property="detailid"    column="DetailId"    />
+        <result property="identityno"    column="IdentityNo"    />
+        <result property="isvaccination"    column="IsVaccination"    />
+        <result property="vaccination1"    column="Vaccination1"    />
+        <result property="vaccination1date"    column="Vaccination1Date"    />
+        <result property="vaccination2"    column="Vaccination2"    />
+        <result property="vaccination2date"    column="Vaccination2Date"    />
+        <result property="vaccination3"    column="Vaccination3"    />
+        <result property="vaccination3date"    column="Vaccination3Date"    />
+        <result property="vaccination4"    column="Vaccination4"    />
+        <result property="vaccination4date"    column="Vaccination4Date"    />
+        <result property="remark"    column="Remark"    />
+        <result property="updatetime"    column="UpdateTime"    />
+        <result property="parentid"    column="ParentId"    />
+    </resultMap>
+
+    <sql id="selectVaccineIdlVo">
+        select DetailId, IdentityNo, IsVaccination, Vaccination1, Vaccination1Date, Vaccination2, Vaccination2Date,
+               Vaccination3, Vaccination3Date, Vaccination4, Vaccination4Date, Remark, UpdateTime, ParentId from vaccine_idl
+    </sql>
+
+    <select id="selectVaccineIdlList" parameterType="VaccineIdl" resultMap="VaccineIdlResult">
+        <include refid="selectVaccineIdlVo"/>
+        <where>
+            <if test="identityno != null  and identityno != ''"> and IdentityNo = #{identityno}</if>
+            <if test="isvaccination != null  and isvaccination != ''"> and IsVaccination = #{isvaccination}</if>
+            <if test="vaccination1 != null  and vaccination1 != ''"> and Vaccination1 = #{vaccination1}</if>
+            <if test="vaccination1date != null "> and Vaccination1Date = #{vaccination1date}</if>
+            <if test="vaccination2 != null  and vaccination2 != ''"> and Vaccination2 = #{vaccination2}</if>
+            <if test="vaccination2date != null "> and Vaccination2Date = #{vaccination2date}</if>
+            <if test="vaccination3 != null  and vaccination3 != ''"> and Vaccination3 = #{vaccination3}</if>
+            <if test="vaccination3date != null "> and Vaccination3Date = #{vaccination3date}</if>
+            <if test="vaccination4 != null  and vaccination4 != ''"> and Vaccination4 = #{vaccination4}</if>
+            <if test="vaccination4date != null "> and Vaccination4Date = #{vaccination4date}</if>
+            <if test="remark != null  and remark != ''"> and Remark = #{remark}</if>
+            <if test="updatetime != null "> and UpdateTime = #{updatetime}</if>
+            <if test="parentid != null  and parentid != ''"> and ParentId = #{parentid}</if>
+        </where>
+    </select>
+
+    <select id="selectVaccineIdlByDetailid" parameterType="Long" resultMap="VaccineIdlResult">
+        <include refid="selectVaccineIdlVo"/>
+        where DetailId = #{detailid}
+    </select>
+
+    <insert id="insertVaccineIdl" parameterType="VaccineIdl">
+        insert into vaccine_idl
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="detailid != null">DetailId,</if>
+            <if test="identityno != null and identityno != ''">IdentityNo,</if>
+            <if test="isvaccination != null and isvaccination != ''">IsVaccination,</if>
+            <if test="vaccination1 != null">Vaccination1,</if>
+            <if test="vaccination1date != null">Vaccination1Date,</if>
+            <if test="vaccination2 != null">Vaccination2,</if>
+            <if test="vaccination2date != null">Vaccination2Date,</if>
+            <if test="vaccination3 != null">Vaccination3,</if>
+            <if test="vaccination3date != null">Vaccination3Date,</if>
+            <if test="vaccination4 != null">Vaccination4,</if>
+            <if test="vaccination4date != null">Vaccination4Date,</if>
+            <if test="remark != null">Remark,</if>
+            <if test="updatetime != null">UpdateTime,</if>
+            <if test="parentid != null and parentid != ''">ParentId,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="detailid != null">#{detailid},</if>
+            <if test="identityno != null and identityno != ''">#{identityno},</if>
+            <if test="isvaccination != null and isvaccination != ''">#{isvaccination},</if>
+            <if test="vaccination1 != null">#{vaccination1},</if>
+            <if test="vaccination1date != null">#{vaccination1date},</if>
+            <if test="vaccination2 != null">#{vaccination2},</if>
+            <if test="vaccination2date != null">#{vaccination2date},</if>
+            <if test="vaccination3 != null">#{vaccination3},</if>
+            <if test="vaccination3date != null">#{vaccination3date},</if>
+            <if test="vaccination4 != null">#{vaccination4},</if>
+            <if test="vaccination4date != null">#{vaccination4date},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="updatetime != null">#{updatetime},</if>
+            <if test="parentid != null and parentid != ''">#{parentid},</if>
+         </trim>
+    </insert>
+
+    <update id="updateVaccineIdl" parameterType="VaccineIdl">
+        update vaccine_idl
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="identityno != null and identityno != ''">IdentityNo = #{identityno},</if>
+            <if test="isvaccination != null and isvaccination != ''">IsVaccination = #{isvaccination},</if>
+            <if test="vaccination1 != null">Vaccination1 = #{vaccination1},</if>
+            <if test="vaccination1date != null">Vaccination1Date = #{vaccination1date},</if>
+            <if test="vaccination2 != null">Vaccination2 = #{vaccination2},</if>
+            <if test="vaccination2date != null">Vaccination2Date = #{vaccination2date},</if>
+            <if test="vaccination3 != null">Vaccination3 = #{vaccination3},</if>
+            <if test="vaccination3date != null">Vaccination3Date = #{vaccination3date},</if>
+            <if test="vaccination4 != null">Vaccination4 = #{vaccination4},</if>
+            <if test="vaccination4date != null">Vaccination4Date = #{vaccination4date},</if>
+            <if test="remark != null">Remark = #{remark},</if>
+            <if test="updatetime != null">UpdateTime = #{updatetime},</if>
+            <if test="parentid != null and parentid != ''">ParentId = #{parentid},</if>
+        </trim>
+        where DetailId = #{detailid}
+    </update>
+
+    <delete id="deleteVaccineIdlByDetailid" parameterType="Long">
+        delete from vaccine_idl where DetailId = #{detailid}
+    </delete>
+
+    <delete id="deleteVaccineIdlByDetailids" parameterType="String">
+        delete from vaccine_idl where DetailId in
+        <foreach item="detailid" collection="array" open="(" separator="," close=")">
+            #{detailid}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.primax.bestsigntransfer.admin.mapper.SupplierIdlMapper">
+
+    <resultMap type="SupplierIdl" id="SupplierIdlResult">
+        <result property="detailid"    column="DetailId"    />
+        <result property="namepartner"    column="NamePartner"    />
+        <result property="unit"    column="Unit"    />
+        <result property="relationship"    column="RelationShip"    />
+        <result property="explain"    column="Explain"    />
+        <result property="parentid"    column="ParentId"    />
+    </resultMap>
+
+    <sql id="selectSupplierIdlVo">
+        select DetailId, NamePartner, Unit, RelationShip, Explain, ParentId from supplier_idl
+    </sql>
+
+    <select id="selectSupplierIdlList" parameterType="SupplierIdl" resultMap="SupplierIdlResult">
+        <include refid="selectSupplierIdlVo"/>
+        <where>
+            <if test="namepartner != null  and namepartner != ''"> and NamePartner = #{namepartner}</if>
+            <if test="unit != null  and unit != ''"> and Unit = #{unit}</if>
+            <if test="relationship != null  and relationship != ''"> and RelationShip = #{relationship}</if>
+            <if test="explain != null  and explain != ''"> and Explain = #{explain}</if>
+            <if test="parentid != null  and parentid != ''"> and ParentId = #{parentid}</if>
+        </where>
+    </select>
+
+    <select id="selectSupplierIdlByDetailid" parameterType="Long" resultMap="SupplierIdlResult">
+        <include refid="selectSupplierIdlVo"/>
+        where DetailId = #{detailid}
+    </select>
+
+    <insert id="insertSupplierIdl" parameterType="SupplierIdl">
+        insert into supplier_idl
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="detailid != null">DetailId,</if>
+            <if test="namepartner != null">NamePartner,</if>
+            <if test="unit != null">Unit,</if>
+            <if test="relationship != null">RelationShip,</if>
+            <if test="explain != null">Explain,</if>
+            <if test="parentid != null">ParentId,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="detailid != null">#{detailid},</if>
+            <if test="namepartner != null">#{namepartner},</if>
+            <if test="unit != null">#{unit},</if>
+            <if test="relationship != null">#{relationship},</if>
+            <if test="explain != null">#{explain},</if>
+            <if test="parentid != null">#{parentid},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSupplierIdl" parameterType="SupplierIdl">
+        update supplier_idl
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="namepartner != null">NamePartner = #{namepartner},</if>
+            <if test="unit != null">Unit = #{unit},</if>
+            <if test="relationship != null">RelationShip = #{relationship},</if>
+            <if test="explain != null">Explain = #{explain},</if>
+            <if test="parentid != null">ParentId = #{parentid},</if>
+        </trim>
+        where DetailId = #{detailid}
+    </update>
+
+    <delete id="deleteSupplierIdlByDetailid" parameterType="Long">
+        delete from supplier_idl where DetailId = #{detailid}
+    </delete>
+
+    <delete id="deleteSupplierIdlByDetailids" parameterType="String">
+        delete from supplier_idl where DetailId in
+        <foreach item="detailid" collection="array" open="(" separator="," close=")">
+            #{detailid}
+        </foreach>
+    </delete>
+</mapper>

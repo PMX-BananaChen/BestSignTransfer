@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.primax.bestsigntransfer.admin.mapper.IdentitynotMapper">
+    
+    <resultMap type="Identitynot" id="IdentitynotResult">
+        <result property="identityno"    column="IdentityNo"    />
+    </resultMap>
+
+    <sql id="selectIdentitynotVo">
+        select IdentityNo from identitynot
+    </sql>
+
+    <select id="selectIdentitynotList" parameterType="Identitynot" resultMap="IdentitynotResult">
+        <include refid="selectIdentitynotVo"/>
+        <where>  
+            <if test="identityno != null  and identityno != ''"> and IdentityNo = #{identityno}</if>
+        </where>
+    </select>
+    
+    <select id="selectIdentitynotByIdentityno" parameterType="String" resultMap="IdentitynotResult">
+        <include refid="selectIdentitynotVo"/>
+        where IdentityNo = #{identityno}
+    </select>
+        
+    <insert id="insertIdentitynot" parameterType="Identitynot">
+        insert into identitynot
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="identityno != null">IdentityNo,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="identityno != null">#{identityno},</if>
+         </trim>
+    </insert>
+
+    <update id="updateIdentitynot" parameterType="Identitynot">
+        update identitynot
+        <trim prefix="SET" suffixOverrides=",">
+        </trim>
+        where IdentityNo = #{identityno}
+    </update>
+
+    <delete id="deleteIdentitynotByIdentityno" parameterType="String">
+        delete from identitynot where IdentityNo = #{identityno}
+    </delete>
+
+    <delete id="deleteIdentitynotByIdentitynos" parameterType="String">
+        delete from identitynot where IdentityNo in 
+        <foreach item="identityno" collection="array" open="(" separator="," close=")">
+            #{identityno}
+        </foreach>
+    </delete>
+</mapper>

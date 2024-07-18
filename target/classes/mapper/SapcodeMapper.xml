@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.primax.bestsigntransfer.admin.mapper.SapcodeMapper">
+
+    <resultMap type="Sapcode" id="SapcodeResult">
+        <result property="id"    column="ID"    />
+        <result property="areaid"    column="AreaId"    />
+        <result property="factorycode"    column="FactoryCode"    />
+        <result property="factoryname"    column="FactoryName"    />
+        <result property="parentareacode"    column="ParentAreaCode"    />
+        <result property="parentareaname"    column="ParentAreaName"    />
+        <result property="childareacode"    column="ChildAreaCode"    />
+        <result property="contractunitcode"    column="ContractUnitCode"    />
+        <result property="contractunit"    column="ContractUnit"    />
+    </resultMap>
+
+    <sql id="selectSapcodeVo">
+        select ID, AreaId, FactoryCode, FactoryName, ParentAreaCode, ParentAreaName, ChildAreaCode, ContractUnitCode, ContractUnit from sapcode
+    </sql>
+
+    <select id="selectSapcodeList" parameterType="Sapcode" resultMap="SapcodeResult">
+        <include refid="selectSapcodeVo"/>
+        <where>
+            <if test="areaid != null  and areaid != ''"> and AreaId = #{areaid}</if>
+            <if test="factorycode != null  and factorycode != ''"> and FactoryCode = #{factorycode}</if>
+            <if test="factoryname != null  and factoryname != ''"> and FactoryName like concat('%', #{factoryname}, '%')</if>
+            <if test="parentareacode != null  and parentareacode != ''"> and ParentAreaCode = #{parentareacode}</if>
+            <if test="parentareaname != null  and parentareaname != ''"> and ParentAreaName like concat('%', #{parentareaname}, '%')</if>
+            <if test="childareacode != null  and childareacode != ''"> and ChildAreaCode = #{childareacode}</if>
+            <if test="contractunitcode != null  and contractunitcode != ''"> and ContractUnitCode = #{contractunitcode}</if>
+            <if test="contractunit != null  and contractunit != ''"> and ContractUnit = #{contractunit}</if>
+        </where>
+    </select>
+
+    <select id="selectSapcodeById" parameterType="Long" resultMap="SapcodeResult">
+        <include refid="selectSapcodeVo"/>
+        where ID = #{id}
+    </select>
+
+    <insert id="insertSapcode" parameterType="Sapcode">
+        insert into sapcode
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">ID,</if>
+            <if test="areaid != null">AreaId,</if>
+            <if test="factorycode != null">FactoryCode,</if>
+            <if test="factoryname != null">FactoryName,</if>
+            <if test="parentareacode != null">ParentAreaCode,</if>
+            <if test="parentareaname != null">ParentAreaName,</if>
+            <if test="childareacode != null">ChildAreaCode,</if>
+            <if test="contractunitcode != null">ContractUnitCode,</if>
+            <if test="contractunit != null">ContractUnit,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="areaid != null">#{areaid},</if>
+            <if test="factorycode != null">#{factorycode},</if>
+            <if test="factoryname != null">#{factoryname},</if>
+            <if test="parentareacode != null">#{parentareacode},</if>
+            <if test="parentareaname != null">#{parentareaname},</if>
+            <if test="childareacode != null">#{childareacode},</if>
+            <if test="contractunitcode != null">#{contractunitcode},</if>
+            <if test="contractunit != null">#{contractunit},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSapcode" parameterType="Sapcode">
+        update sapcode
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="areaid != null">AreaId = #{areaid},</if>
+            <if test="factorycode != null">FactoryCode = #{factorycode},</if>
+            <if test="factoryname != null">FactoryName = #{factoryname},</if>
+            <if test="parentareacode != null">ParentAreaCode = #{parentareacode},</if>
+            <if test="parentareaname != null">ParentAreaName = #{parentareaname},</if>
+            <if test="childareacode != null">ChildAreaCode = #{childareacode},</if>
+            <if test="contractunitcode != null">ContractUnitCode = #{contractunitcode},</if>
+            <if test="contractunit != null">ContractUnit = #{contractunit},</if>
+        </trim>
+        where ID = #{id}
+    </update>
+
+    <delete id="deleteSapcodeById" parameterType="Long">
+        delete from sapcode where ID = #{id}
+    </delete>
+
+    <delete id="deleteSapcodeByIds" parameterType="String">
+        delete from sapcode where ID in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

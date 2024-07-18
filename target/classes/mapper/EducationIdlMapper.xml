@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.primax.bestsigntransfer.admin.mapper.EducationIdlMapper">
+
+    <resultMap type="EducationIdl" id="EducationIdlResult">
+        <result property="detailid"    column="DetailId"    />
+        <result property="education"    column="Education"    />
+        <result property="degree"    column="Degree"    />
+        <result property="studymode"    column="StudyMode"    />
+        <result property="school"    column="School"    />
+        <result property="subject"    column="Subject"    />
+        <result property="certificate"    column="Certificate"    />
+        <result property="entrancedate"    column="EntranceDate"    />
+        <result property="graduationdate"    column="GraduationDate"    />
+        <result property="createtime"    column="CreateTime"    />
+        <result property="updatetime"    column="UpdateTime"    />
+        <result property="parentid"    column="ParentId"    />
+    </resultMap>
+
+    <sql id="selectEducationIdlVo">
+        select DetailId, Education, Degree, StudyMode, School, Subject, Certificate, EntranceDate, GraduationDate, CreateTime, UpdateTime, ParentId from education_idl
+    </sql>
+
+    <select id="selectEducationIdlList" parameterType="EducationIdl" resultMap="EducationIdlResult">
+        <include refid="selectEducationIdlVo"/>
+        <where>
+            <if test="education != null  and education != ''"> and Education = #{education}</if>
+            <if test="degree != null  and degree != ''"> and Degree = #{degree}</if>
+            <if test="studymode != null  and studymode != ''"> and StudyMode = #{studymode}</if>
+            <if test="school != null  and school != ''"> and School = #{school}</if>
+            <if test="subject != null  and subject != ''"> and Subject = #{subject}</if>
+            <if test="certificate != null  and certificate != ''"> and Certificate = #{certificate}</if>
+            <if test="entrancedate != null  and entrancedate != ''"> and EntranceDate = #{entrancedate}</if>
+            <if test="graduationdate != null  and graduationdate != ''"> and GraduationDate = #{graduationdate}</if>
+            <if test="createtime != null "> and CreateTime = #{createtime}</if>
+            <if test="updatetime != null "> and UpdateTime = #{updatetime}</if>
+            <if test="parentid != null  and parentid != ''"> and ParentId = #{parentid}</if>
+        </where>
+    </select>
+
+    <select id="selectEducationIdlByDetailid" parameterType="Long" resultMap="EducationIdlResult">
+        <include refid="selectEducationIdlVo"/>
+        where DetailId = #{detailid}
+    </select>
+
+    <insert id="insertEducationIdl" parameterType="EducationIdl">
+        insert into education_idl
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="detailid != null">DetailId,</if>
+            <if test="education != null">Education,</if>
+            <if test="degree != null">Degree,</if>
+            <if test="studymode != null">StudyMode,</if>
+            <if test="school != null">School,</if>
+            <if test="subject != null">Subject,</if>
+            <if test="certificate != null">Certificate,</if>
+            <if test="entrancedate != null">EntranceDate,</if>
+            <if test="graduationdate != null">GraduationDate,</if>
+            <if test="createtime != null">CreateTime,</if>
+            <if test="updatetime != null">UpdateTime,</if>
+            <if test="parentid != null">ParentId,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="detailid != null">#{detailid},</if>
+            <if test="education != null">#{education},</if>
+            <if test="degree != null">#{degree},</if>
+            <if test="studymode != null">#{studymode},</if>
+            <if test="school != null">#{school},</if>
+            <if test="subject != null">#{subject},</if>
+            <if test="certificate != null">#{certificate},</if>
+            <if test="entrancedate != null">#{entrancedate},</if>
+            <if test="graduationdate != null">#{graduationdate},</if>
+            <if test="createtime != null">#{createtime},</if>
+            <if test="updatetime != null">#{updatetime},</if>
+            <if test="parentid != null">#{parentid},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEducationIdl" parameterType="EducationIdl">
+        update education_idl
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="education != null">Education = #{education},</if>
+            <if test="degree != null">Degree = #{degree},</if>
+            <if test="studymode != null">StudyMode = #{studymode},</if>
+            <if test="school != null">School = #{school},</if>
+            <if test="subject != null">Subject = #{subject},</if>
+            <if test="certificate != null">Certificate = #{certificate},</if>
+            <if test="entrancedate != null">EntranceDate = #{entrancedate},</if>
+            <if test="graduationdate != null">GraduationDate = #{graduationdate},</if>
+            <if test="createtime != null">CreateTime = #{createtime},</if>
+            <if test="updatetime != null">UpdateTime = #{updatetime},</if>
+            <if test="parentid != null">ParentId = #{parentid},</if>
+        </trim>
+        where DetailId = #{detailid}
+    </update>
+
+    <delete id="deleteEducationIdlByDetailid" parameterType="Long">
+        delete from education_idl where DetailId = #{detailid}
+    </delete>
+
+    <delete id="deleteEducationIdlByDetailids" parameterType="String">
+        delete from education_idl where DetailId in
+        <foreach item="detailid" collection="array" open="(" separator="," close=")">
+            #{detailid}
+        </foreach>
+    </delete>
+</mapper>

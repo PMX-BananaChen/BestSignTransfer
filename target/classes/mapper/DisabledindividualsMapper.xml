@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.primax.bestsigntransfer.admin.mapper.DisabledindividualsMapper">
+<!--    <cache-ref namespace="com.primax.bestsigntransfer.admin.mapper.DisabledindividualsMapper"/>-->
+    <resultMap type="com.primax.bestsigntransfer.admin.domain.entity.Disabledindividuals" id="DisabledindividualsResult">
+        <result property="detailid"    column="DetailId"    />
+        <result property="disabilitycategory"    column="DisabilityCategory"    />
+        <result property="disabilitylevel"    column="DisabilityLevel"    />
+        <result property="disabilityno"    column="DisabilityNo"    />
+        <result property="signaturedate"    column="SignatureDate"    />
+        <result property="parentid"    column="ParentId"    />
+    </resultMap>
+
+    <sql id="selectDisabledindividualsVo">
+        select DetailId, DisabilityCategory, DisabilityLevel, DisabilityNo, SignatureDate, ParentId from disabledindividuals
+    </sql>
+
+    <select id="selectDisabledindividualsList" parameterType="com.primax.bestsigntransfer.admin.domain.entity.Disabledindividuals" resultMap="DisabledindividualsResult">
+        <include refid="selectDisabledindividualsVo"/>
+        <where>
+            <if test="disabilitycategory != null  and disabilitycategory != ''"> and DisabilityCategory = #{disabilitycategory}</if>
+            <if test="disabilitylevel != null  and disabilitylevel != ''"> and DisabilityLevel = #{disabilitylevel}</if>
+            <if test="disabilityno != null  and disabilityno != ''"> and DisabilityNo = #{disabilityno}</if>
+            <if test="signaturedate != null "> and SignatureDate = #{signaturedate}</if>
+            <if test="parentid != null  and parentid != ''"> and ParentId = #{parentid}</if>
+        </where>
+    </select>
+
+    <select id="selectDisabledindividualsByDetailid" parameterType="Long" resultMap="DisabledindividualsResult">
+        <include refid="selectDisabledindividualsVo"/>
+        where DetailId = #{detailid}
+    </select>
+
+    <insert id="insertDisabledindividuals" parameterType="com.primax.bestsigntransfer.admin.domain.entity.Disabledindividuals">
+        insert into disabledindividuals
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="detailid != null">DetailId,</if>
+            <if test="disabilitycategory != null">DisabilityCategory,</if>
+            <if test="disabilitylevel != null">DisabilityLevel,</if>
+            <if test="disabilityno != null">DisabilityNo,</if>
+            <if test="signaturedate != null">SignatureDate,</if>
+            <if test="parentid != null">ParentId,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="detailid != null">#{detailid},</if>
+            <if test="disabilitycategory != null">#{disabilitycategory},</if>
+            <if test="disabilitylevel != null">#{disabilitylevel},</if>
+            <if test="disabilityno != null">#{disabilityno},</if>
+            <if test="signaturedate != null">#{signaturedate},</if>
+            <if test="parentid != null">#{parentid},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDisabledindividuals" parameterType="com.primax.bestsigntransfer.admin.domain.entity.Disabledindividuals">
+        update disabledindividuals
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="disabilitycategory != null">DisabilityCategory = #{disabilitycategory},</if>
+            <if test="disabilitylevel != null">DisabilityLevel = #{disabilitylevel},</if>
+            <if test="disabilityno != null">DisabilityNo = #{disabilityno},</if>
+            <if test="signaturedate != null">SignatureDate = #{signaturedate},</if>
+            <if test="parentid != null">ParentId = #{parentid},</if>
+        </trim>
+        where DetailId = #{detailid}
+    </update>
+
+    <delete id="deleteDisabledindividualsByDetailid" parameterType="Long">
+        delete from disabledindividuals where DetailId = #{detailid}
+    </delete>
+
+    <delete id="deleteDisabledindividualsByDetailids" parameterType="String">
+        delete from disabledindividuals where DetailId in
+        <foreach item="detailid" collection="array" open="(" separator="," close=")">
+            #{detailid}
+        </foreach>
+    </delete>
+</mapper>
